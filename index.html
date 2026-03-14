@@ -2,154 +2,572 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Omar Oudrari | Portfolio</title>
+  <title>Omar Oudrari</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f2ed;
+      --ink: #16140f;
+      --muted: #6b6458;
+      --accent: #c8501a;
+      --accent2: #2a5c8f;
+      --card: #edeae3;
+      --border: #d6d0c6;
+      --tag-bg: #e3dfd6;
+    }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #0f172a;
-      color: #e5e7eb;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
     }
-    header {
-      padding: 2rem 1.5rem;
-      text-align: center;
-      background: #020617;
-      border-bottom: 1px solid #1f2937;
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.4;
     }
-    h1 {
-      margin-bottom: 0.25rem;
-      font-size: 2rem;
-    }
-    h2 {
-      margin-top: 2rem;
-      font-size: 1.4rem;
-      color: #fbbf24;
-    }
-    main {
-      max-width: 800px;
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 760px;
       margin: 0 auto;
-      padding: 2rem 1.5rem 3rem;
+      padding: 0 1.5rem;
     }
-    p {
-      line-height: 1.6;
+
+    /* ── HEADER ── */
+    header {
+      padding: 5rem 1.5rem 3rem;
+      max-width: 760px;
+      margin: 0 auto;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.7s ease forwards;
     }
-    ul {
-      padding-left: 1.2rem;
-      line-height: 1.6;
+
+    .eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
     }
-    .tagline {
-      color: #9ca3af;
-      font-size: 0.95rem;
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.8rem, 8vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 1.25rem;
     }
-    .section {
-      margin-bottom: 2rem;
+
+    h1 span {
+      color: var(--accent);
     }
-    .pill-list span {
-      display: inline-block;
-      background: #111827;
-      border: 1px solid #374151;
-      border-radius: 999px;
-      padding: 0.25rem 0.75rem;
-      margin: 0.25rem 0.25rem 0 0;
-      font-size: 0.85rem;
+
+    .intro {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 520px;
+      font-weight: 300;
+      line-height: 1.75;
     }
-    a {
-      color: #60a5fa;
+
+    .header-meta {
+      margin-top: 1.75rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .status-dot {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .status-dot::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 0 3px rgba(34,197,94,0.2);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(34,197,94,0.2); }
+      50% { box-shadow: 0 0 0 6px rgba(34,197,94,0.08); }
+    }
+
+    .header-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .header-links a {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--muted);
       text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1px;
+      transition: color 0.2s, border-color 0.2s;
     }
-    a:hover {
-      text-decoration: underline;
+
+    .header-links a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
     }
-    .footer {
-      text-align: center;
-      font-size: 0.85rem;
-      color: #6b7280;
-      margin-top: 2rem;
+
+    /* ── DIVIDER ── */
+    .divider {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 3rem 1.5rem;
+      max-width: 760px;
+      margin: 0 auto;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    section:nth-child(2) { animation-delay: 0.1s; }
+    section:nth-child(3) { animation-delay: 0.2s; }
+    section:nth-child(4) { animation-delay: 0.3s; }
+    section:nth-child(5) { animation-delay: 0.4s; }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── ABOUT ── */
+    .about-text {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--ink);
+      font-weight: 300;
+      max-width: 600px;
+    }
+
+    .about-text strong {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .internship-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1.25rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.5rem 0.9rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--accent2);
+    }
+
+    /* ── PROJECTS ── */
+    .project-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .project-card {
+      background: var(--card);
+      padding: 1.5rem;
+      transition: background 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      position: relative;
+    }
+
+    .project-card:not(:last-child) {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .project-card:hover {
+      background: #e8e4db;
+    }
+
+    .project-card:hover .project-arrow {
+      transform: translate(3px, -3px);
+      opacity: 1;
+    }
+
+    .project-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .project-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.35rem;
+    }
+
+    .project-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.6;
+      font-weight: 300;
+      max-width: 540px;
+    }
+
+    .project-finding {
+      margin-top: 0.75rem;
+      font-size: 0.82rem;
+      color: var(--ink);
+      background: var(--tag-bg);
+      border-left: 2px solid var(--accent);
+      padding: 0.4rem 0.7rem;
+      border-radius: 0 3px 3px 0;
+      font-style: italic;
+      font-weight: 300;
+      max-width: 520px;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.9rem;
+    }
+
+    .tag {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.2rem 0.55rem;
+      border-radius: 3px;
+    }
+
+    .project-arrow {
+      font-size: 0.9rem;
+      color: var(--muted);
+      opacity: 0.5;
+      transition: transform 0.2s, opacity 0.2s;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .project-wip {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .wip-badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .skill-group {
+      background: var(--card);
+      padding: 1.25rem;
+    }
+
+    .skill-group-name {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    .skill-group ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .skill-group li {
+      font-size: 0.87rem;
+      color: var(--muted);
+      font-weight: 300;
+      padding: 0.15rem 0;
+    }
+
+    /* ── CONTACT ── */
+    .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.87rem;
+      font-weight: 500;
+      color: var(--ink);
+      text-decoration: none;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 0.55rem 1rem;
+      border-radius: 4px;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .contact-link:hover {
+      background: var(--ink);
+      color: var(--bg);
+      border-color: var(--ink);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    @media (max-width: 520px) {
+      h1 { font-size: 2.4rem; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
 <body>
+
   <header>
-    <h1>Omar Oudrari</h1>
-    <p class="tagline">
-      CIS + Business Analytics &amp; Marketing @ James Madison University
+    <p class="eyebrow">Portfolio</p>
+    <h1>Omar<br><span>Oudrari</span></h1>
+    <p class="intro">
+      CIS + Marketing student at James Madison University building at the intersection
+      of data analytics, cloud, and business strategy.
     </p>
-    <p class="tagline">
-      Building projects in web development, Python, and data analytics.
-    </p>
+    <div class="header-meta">
+      <span class="status-dot">Open to Summer 2026 internships</span>
+      <div class="header-links">
+        <a href="https://www.linkedin.com/in/omaroudrari/" target="_blank">LinkedIn</a>
+        <a href="https://github.com/yrgomar" target="_blank">GitHub</a>
+        <a href="mailto:omar.oudrari@gmail.com">Email</a>
+      </div>
+    </div>
   </header>
 
-  <main>
-    <section class="section">
-      <h2>About</h2>
-      <p>
-        I am a Computer Information Systems student with a Business Analytics concentration
-        and a Marketing major at James Madison University. I’m interested in data analytics,
-        cloud technologies, and using code to solve real business problems.
-      </p>
-      
-      <p>
-  <strong>Current goals:</strong> Currently looking for summer 2026 internships in
-  data analytics or cloud.
-</p>
+  <hr class="divider" />
 
-    </section>
+  <section>
+    <p class="section-label">About</p>
+    <p class="about-text">
+      Sophomore studying <strong>Computer Information Systems</strong> with a Business Analytics
+      concentration and a second major in <strong>Marketing</strong> at JMU. I'm interested in
+      turning messy data into decisions — combining Python, SQL, and cloud tools with a
+      marketing lens to understand customers and measure impact.
+    </p>
+  </section>
 
-    <section class="section">
-      <h2>Projects</h2>
-      <ul>
-        <li>
-          <strong>Odin Recipes</strong> – Intro HTML project from The Odin Project,
-          building a multi-page recipe site and practicing semantic HTML.
-          <br />
-          <a href="https://github.com/yrgomar/odin-recipes" target="_blank">
-            View on GitHub
-          </a>
-        </li>
-        <li>
-          <strong>CSS Exercises</strong> – A collection of small CSS exercises from
-          The Odin Project to practice selectors, layout, and the box model.
-          <br />
-          <a href="https://github.com/yrgomar/css-exercises" target="_blank">
-            View on GitHub
-          </a>
-        </li>
-        <li>
-  <strong>Upcoming: Python Data Analysis Project</strong> – Using an open dataset
-  to clean, analyze, and extract insights with Python (in progress).
-</li>
+  <hr class="divider" />
 
-        <!-- Add new projects here as you create them -->
-      </ul>
-    </section>
+  <section>
+    <p class="section-label">Projects</p>
+    <div class="project-list">
 
-    <section class="section">
-      <h2>Skills & Interests</h2>
-      <div class="pill-list">
-        <span>Python</span>
-        <span>HTML &amp; CSS</span>
-        <span>SQL (learning)</span>
-        <span>Data analytics</span>
-        <span>AWS &amp; cloud (learning)</span>
-        <span>Marketing analytics</span>
+      <a class="project-card" href="https://github.com/yrgomar/fast-fashion-brand-analysis" target="_blank">
+        <div class="project-top">
+          <div>
+            <p class="project-name">The True Cost of Fast Fashion</p>
+            <p class="project-desc">
+              Analyzed 3,000 records across Shein, Zara, H&M, Forever 21, and Uniqlo
+              to explore sustainability, worker wages, carbon emissions, and social media impact.
+            </p>
+            <p class="project-finding">
+              High social media popularity shows little correlation with sustainability — viral brands are not necessarily responsible ones.
+            </p>
+            <div class="project-tags">
+              <span class="tag">Python</span>
+              <span class="tag">Pandas</span>
+              <span class="tag">Matplotlib</span>
+              <span class="tag">Seaborn</span>
+              <span class="tag">EDA</span>
+            </div>
+          </div>
+          <span class="project-arrow">↗</span>
+        </div>
+      </a>
+
+      <a class="project-card" href="https://madisonaiclub.com" target="_blank">
+        <div class="project-top">
+          <div>
+            <p class="project-name">Madison AI Club — Member Portal</p>
+            <p class="project-desc">
+              Contributing to a members-only website with secure login and shared calendar
+              for JMU students interested in AI.
+            </p>
+            <div class="project-tags">
+              <span class="tag">Web Dev</span>
+              <span class="tag">Auth</span>
+              <span class="tag">Student Project</span>
+            </div>
+          </div>
+          <span class="project-arrow">↗</span>
+        </div>
+      </a>
+
+      <div class="project-card project-wip">
+        <div class="project-top">
+          <div>
+            <p class="project-name">SQL Analytics Project</p>
+            <p class="project-desc">
+              Querying e-commerce and marketing datasets to answer real business questions
+              using SQL — aggregations, joins, and trend analysis.
+            </p>
+            <div class="project-tags">
+              <span class="tag">SQL</span>
+              <span class="tag">SQLite</span>
+              <span class="tag">Business Analytics</span>
+            </div>
+          </div>
+          <span class="wip-badge">In Progress</span>
+        </div>
       </div>
-    </section>
 
-    <section class="section">
-      <h2>Contact</h2>
-      <p>
-        Email: <a href="mailto:omar.oudrari@gmail.com">omar.oudrari@gmail.com</a><br />
-        LinkedIn: <a href="https://www.linkedin.com/in/omaroudrari" target="_blank">
-          linkedin.com/in/omaroudrari
-        </a>
-      </p>
-    </section>
-
-    <div class="footer">
-      Last updated: March 2026
     </div>
-  </main>
+  </section>
+
+  <hr class="divider" />
+
+  <section>
+    <p class="section-label">Skills</p>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <p class="skill-group-name">Languages</p>
+        <ul>
+          <li>Python</li>
+          <li>SQL</li>
+          <li>HTML &amp; CSS</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <p class="skill-group-name">Data & Analytics</p>
+        <ul>
+          <li>Pandas</li>
+          <li>Matplotlib</li>
+          <li>Seaborn</li>
+          <li>EDA &amp; reporting</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <p class="skill-group-name">Cloud & Platforms</p>
+        <ul>
+          <li>AWS (learning)</li>
+          <li>Google Colab</li>
+          <li>GitHub</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <p class="skill-group-name">Business</p>
+        <ul>
+          <li>Marketing analytics</li>
+          <li>Business strategy</li>
+          <li>Digital marketing</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <section>
+    <p class="section-label">Contact</p>
+    <div class="contact-row">
+      <a class="contact-link" href="mailto:omar.oudrari@gmail.com">
+        ✉ omar.oudrari@gmail.com
+      </a>
+      <a class="contact-link" href="https://www.linkedin.com/in/omaroudrari/" target="_blank">
+        LinkedIn
+      </a>
+      <a class="contact-link" href="https://github.com/yrgomar" target="_blank">
+        GitHub
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <span>Omar Oudrari — JMU '28</span>
+    <span>Updated March 2026</span>
+  </footer>
+
 </body>
 </html>
