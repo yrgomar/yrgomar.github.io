@@ -3,461 +3,432 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Omar Oudrari — CIS + Marketing</title>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@300;400;500&family=Geist:wght@300;400;500&display=swap" rel="stylesheet"/>
+<title>Omar Oudrari</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
 :root{
-  --bg:#080810;
-  --bg2:#0e0e1a;
-  --bg3:#151522;
-  --border:#1e1e30;
-  --border2:#2a2a40;
-  --text:#ddddef;
-  --text2:#8888aa;
-  --text3:#444460;
-  --gold:#c9a96e;
-  --gold2:#e8c98e;
-  --blue:#5b8dd9;
-  --red:#d96060;
-  --green:#4db87a;
-  --serif:'Instrument Serif',Georgia,serif;
-  --mono:'Geist Mono',monospace;
-  --sans:'Geist','DM Sans',sans-serif;
+  --white:#ffffff;
+  --bg:#f5f5f7;
+  --bg2:#fbfbfd;
+  --text:#1d1d1f;
+  --text2:#6e6e73;
+  --text3:#aeaeb2;
+  --border:#d2d2d7;
+  --border2:#e8e8ed;
+  --blue:#0071e3;
+  --blue-dark:#0064cc;
+  --serif:'DM Serif Display',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
 }
 
 html{scroll-behavior:smooth;}
 
 body{
   font-family:var(--sans);
-  background:var(--bg);
+  background:var(--white);
   color:var(--text);
-  font-size:15px;
-  line-height:1.65;
+  font-size:17px;
+  line-height:1.6;
   overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
 }
-
-/* Grid background */
-body::before{
-  content:'';
-  position:fixed;
-  inset:0;
-  background-image:
-    linear-gradient(var(--border) 1px,transparent 1px),
-    linear-gradient(90deg,var(--border) 1px,transparent 1px);
-  background-size:48px 48px;
-  opacity:0.35;
-  pointer-events:none;
-  z-index:0;
-}
-
-.wrap{position:relative;z-index:1;max-width:800px;margin:0 auto;padding:0 1.5rem;}
 
 /* ── NAV ── */
 nav{
   position:sticky;top:0;z-index:100;
-  border-bottom:1px solid var(--border);
-  background:rgba(8,8,16,0.92);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
+  background:rgba(255,255,255,0.85);
+  backdrop-filter:saturate(180%) blur(20px);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid rgba(0,0,0,0.08);
 }
 .nav-inner{
-  max-width:800px;margin:0 auto;padding:0 1.5rem;
+  max-width:980px;margin:0 auto;padding:0 2rem;
   height:52px;
   display:flex;align-items:center;justify-content:space-between;
 }
 .nav-logo{
-  font-family:var(--mono);font-size:12px;font-weight:500;
-  color:var(--text2);letter-spacing:0.06em;
-  text-decoration:none;
-  transition:color 0.2s;
+  font-family:var(--sans);font-size:17px;font-weight:500;
+  color:var(--text);text-decoration:none;
+  letter-spacing:-0.01em;
 }
-.nav-logo:hover{color:var(--gold);}
-.nav-links{display:flex;gap:1.5rem;align-items:center;}
+.nav-links{display:flex;gap:2rem;align-items:center;}
 .nav-links a{
-  font-family:var(--mono);font-size:11px;font-weight:400;
-  color:var(--text3);letter-spacing:0.06em;
-  text-decoration:none;
-  transition:color 0.2s;
+  font-size:13px;font-weight:400;
+  color:var(--text2);text-decoration:none;
+  transition:color 0.15s;
 }
 .nav-links a:hover{color:var(--text);}
-.nav-dot{
-  display:flex;align-items:center;gap:6px;
-  font-family:var(--mono);font-size:11px;color:var(--green);
+.nav-cta{
+  font-size:13px;font-weight:400;
+  color:var(--blue);text-decoration:none;
+  transition:color 0.15s;
 }
-.nav-dot::before{
-  content:'';width:6px;height:6px;border-radius:50%;
-  background:var(--green);
-  animation:blink 2.5s ease-in-out infinite;
-}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.35;}}
+.nav-cta:hover{color:var(--blue-dark);}
 
 /* ── HERO ── */
 .hero{
-  padding:6rem 0 4rem;
-  opacity:0;transform:translateY(24px);
-  animation:rise 0.8s cubic-bezier(0.22,1,0.36,1) 0.1s forwards;
-}
-@keyframes rise{to{opacity:1;transform:translateY(0);}}
-
-.hero-eyebrow{
-  font-family:var(--mono);font-size:11px;font-weight:400;
-  color:var(--gold);letter-spacing:0.12em;text-transform:uppercase;
-  margin-bottom:1.25rem;
-  display:flex;align-items:center;gap:0.75rem;
-}
-.hero-eyebrow::before{
-  content:'';display:inline-block;
-  width:24px;height:1px;background:var(--gold);
-}
-
-.hero-layout{
+  max-width:980px;margin:0 auto;
+  padding:100px 2rem 80px;
   display:grid;
-  grid-template-columns:1fr auto;
-  gap:2.5rem;
-  align-items:start;
+  grid-template-columns:1fr 220px;
+  gap:4rem;
+  align-items:center;
 }
-
+.hero-eyebrow{
+  font-size:13px;font-weight:400;
+  color:var(--text2);
+  letter-spacing:0.01em;
+  margin-bottom:1.25rem;
+  display:flex;align-items:center;gap:8px;
+}
+.status-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:#34c759;
+  display:inline-block;
+  animation:pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:1;transform:scale(1);}
+  50%{opacity:0.5;transform:scale(0.85);}
+}
 h1{
   font-family:var(--serif);
-  font-size:clamp(3rem,8vw,5.5rem);
+  font-size:clamp(2.8rem,5vw,4.5rem);
   font-weight:400;
-  line-height:0.95;
-  letter-spacing:-0.01em;
+  line-height:1.05;
+  letter-spacing:-0.02em;
   color:var(--text);
   margin-bottom:1.5rem;
 }
-h1 em{
-  font-style:italic;
-  color:var(--gold);
-}
-
+h1 span{color:var(--text2);}
 .hero-sub{
-  font-family:var(--sans);font-size:1rem;font-weight:300;
-  color:var(--text2);line-height:1.75;max-width:500px;
-  margin-bottom:2rem;
-}
-
-.hero-pills{
-  display:flex;flex-wrap:wrap;gap:0.5rem;
-  margin-bottom:2rem;
-}
-.pill{
-  font-family:var(--mono);font-size:11px;font-weight:400;
-  border:1px solid var(--border2);
-  border-radius:3px;
-  padding:4px 10px;
+  font-size:19px;font-weight:300;
   color:var(--text2);
-  letter-spacing:0.04em;
+  line-height:1.6;
+  max-width:520px;
+  margin-bottom:2.5rem;
 }
-.pill.active{
-  border-color:var(--gold);color:var(--gold);
-  background:rgba(201,169,110,0.06);
-}
-
-.headshot-wrap{
-  flex-shrink:0;
-}
-.headshot{
-  width:100px;height:100px;
-  border-radius:8px;
-  object-fit:cover;object-position:center top;
-  border:1px solid var(--border2);
-  filter:grayscale(20%);
-  opacity:0.9;
-}
-
-.hero-links{display:flex;gap:0.75rem;flex-wrap:wrap;}
-.hero-link{
-  font-family:var(--mono);font-size:11px;font-weight:500;
-  letter-spacing:0.06em;
-  color:var(--text2);
+.hero-actions{display:flex;gap:0.75rem;flex-wrap:wrap;}
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--sans);font-size:15px;font-weight:400;
+  padding:10px 22px;border-radius:980px;
   text-decoration:none;
-  border:1px solid var(--border2);
-  border-radius:3px;
-  padding:6px 14px;
   transition:all 0.2s;
-  display:flex;align-items:center;gap:6px;
+  cursor:pointer;border:none;
 }
-.hero-link:hover{
-  border-color:var(--gold);color:var(--gold);
-  background:rgba(201,169,110,0.06);
+.btn-primary{
+  background:var(--blue);color:#fff;
 }
-.hero-link.primary{
-  background:var(--gold);color:var(--bg);border-color:var(--gold);
+.btn-primary:hover{background:var(--blue-dark);}
+.btn-secondary{
+  background:var(--bg);color:var(--text);
+  border:1px solid var(--border);
 }
-.hero-link.primary:hover{
-  background:var(--gold2);border-color:var(--gold2);color:var(--bg);
+.btn-secondary:hover{background:var(--border2);}
+
+.headshot-col{display:flex;justify-content:center;}
+.headshot{
+  width:180px;height:180px;
+  border-radius:50%;
+  object-fit:cover;
+  object-position:center top;
+  border:1px solid var(--border2);
 }
 
-/* ── STATS BAR ── */
-.stats-bar{
+/* ── STATS ── */
+.stats-section{
+  background:var(--bg);
+  border-top:1px solid var(--border2);
+  border-bottom:1px solid var(--border2);
+  padding:3rem 2rem;
+}
+.stats-inner{
+  max-width:980px;margin:0 auto;
   display:grid;grid-template-columns:repeat(4,1fr);
-  border:1px solid var(--border);
-  border-radius:6px;
-  overflow:hidden;
-  margin:3rem 0;
-  opacity:0;transform:translateY(16px);
-  animation:rise 0.7s cubic-bezier(0.22,1,0.36,1) 0.3s forwards;
+  gap:2rem;
 }
-.stat{
-  padding:1.25rem 1rem;
-  border-right:1px solid var(--border);
-  background:var(--bg2);
-}
-.stat:last-child{border-right:none;}
+.stat{text-align:center;}
 .stat-val{
-  font-family:var(--mono);font-size:1.6rem;font-weight:500;
-  color:var(--gold);line-height:1;margin-bottom:0.3rem;
+  font-family:var(--serif);
+  font-size:2.8rem;font-weight:400;
+  color:var(--text);line-height:1;
+  margin-bottom:0.4rem;
   display:block;
+  letter-spacing:-0.02em;
 }
 .stat-label{
-  font-family:var(--mono);font-size:10px;font-weight:400;
-  color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;
+  font-size:13px;font-weight:400;
+  color:var(--text2);
   display:block;
 }
 
-/* ── SECTION HEADERS ── */
-.sec-head{
-  display:flex;align-items:center;gap:1rem;
-  margin-bottom:1.75rem;
-  padding-top:3rem;
+/* ── SECTIONS ── */
+.section{
+  max-width:980px;margin:0 auto;
+  padding:80px 2rem;
 }
-.sec-label{
-  font-family:var(--mono);font-size:10px;font-weight:500;
-  color:var(--text3);letter-spacing:0.12em;text-transform:uppercase;
+.section-divider{
+  border:none;
+  border-top:1px solid var(--border2);
+  max-width:980px;margin:0 auto;
 }
-.sec-line{flex:1;height:1px;background:var(--border);}
-.sec-num{
-  font-family:var(--mono);font-size:10px;
-  color:var(--text3);letter-spacing:0.04em;
+.section-label{
+  font-size:13px;font-weight:500;
+  color:var(--text2);
+  letter-spacing:0.02em;
+  text-transform:uppercase;
+  margin-bottom:0.75rem;
+}
+h2{
+  font-family:var(--serif);
+  font-size:clamp(1.8rem,3vw,2.4rem);
+  font-weight:400;
+  letter-spacing:-0.02em;
+  color:var(--text);
+  margin-bottom:1rem;
+  line-height:1.1;
+}
+.section-intro{
+  font-size:19px;font-weight:300;
+  color:var(--text2);
+  max-width:560px;
+  margin-bottom:3rem;
+  line-height:1.6;
 }
 
 /* ── PROJECTS ── */
-.project-grid{
-  display:flex;flex-direction:column;gap:1px;
-  border:1px solid var(--border);border-radius:6px;overflow:hidden;
+.project-list{
+  display:flex;flex-direction:column;
+  gap:1px;
+  background:var(--border2);
+  border:1px solid var(--border2);
+  border-radius:18px;
+  overflow:hidden;
 }
 .project{
   display:block;text-decoration:none;color:inherit;
-  background:var(--bg2);
-  padding:1.75rem;
-  border-bottom:1px solid var(--border);
-  transition:background 0.2s;
+  background:var(--white);
+  padding:2rem 2.5rem;
+  transition:background 0.15s;
   position:relative;
 }
-.project:last-child{border-bottom:none;}
-.project:hover{background:var(--bg3);}
-.project:hover .proj-arrow{opacity:1;transform:translate(3px,-3px);}
+.project:hover{background:var(--bg2);}
+.project:hover .proj-arrow{opacity:1;transform:translate(2px,-2px);}
 
-.proj-top{
-  display:flex;justify-content:space-between;
-  align-items:flex-start;gap:1rem;
+.proj-inner{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;}
+.proj-badge{
+  display:inline-block;
+  font-size:11px;font-weight:500;
+  letter-spacing:0.04em;text-transform:uppercase;
+  color:var(--blue);
+  background:rgba(0,113,227,0.08);
+  padding:3px 10px;border-radius:980px;
   margin-bottom:0.75rem;
 }
-.proj-title{
-  font-family:var(--serif);font-size:1.2rem;font-weight:400;
-  color:var(--text);line-height:1.3;
+.proj-badge.featured{
+  color:#bf4800;
+  background:rgba(191,72,0,0.08);
 }
-.proj-meta{
-  font-family:var(--mono);font-size:10px;
-  color:var(--text3);letter-spacing:0.06em;
+.proj-title{
+  font-family:var(--serif);
+  font-size:1.4rem;font-weight:400;
+  color:var(--text);
+  letter-spacing:-0.01em;
   margin-bottom:0.5rem;
+  line-height:1.2;
 }
 .proj-desc{
-  font-size:0.88rem;font-weight:300;
-  color:var(--text2);line-height:1.7;
-  max-width:560px;margin-bottom:0.9rem;
+  font-size:15px;font-weight:300;
+  color:var(--text2);
+  line-height:1.65;
+  max-width:580px;
+  margin-bottom:1rem;
 }
 .proj-finding{
-  font-family:var(--serif);font-size:0.9rem;font-style:italic;
+  font-size:15px;font-weight:400;
   color:var(--text);
-  border-left:2px solid var(--gold);
-  padding:0.4rem 0.8rem;
-  background:rgba(201,169,110,0.04);
-  border-radius:0 3px 3px 0;
-  margin-bottom:0.9rem;
-  max-width:540px;
+  background:var(--bg);
+  border-radius:10px;
+  padding:0.75rem 1rem;
+  margin-bottom:1rem;
+  max-width:560px;
+  line-height:1.55;
 }
-.proj-tags{display:flex;flex-wrap:wrap;gap:0.35rem;}
+.proj-tags{display:flex;flex-wrap:wrap;gap:0.4rem;}
 .proj-tag{
-  font-family:var(--mono);font-size:10px;font-weight:400;
-  letter-spacing:0.04em;
-  background:var(--bg3);border:1px solid var(--border2);
-  color:var(--text3);padding:3px 8px;border-radius:2px;
+  font-size:12px;font-weight:400;
+  color:var(--text2);
+  background:var(--bg);
+  border:1px solid var(--border2);
+  padding:3px 10px;border-radius:980px;
 }
 .proj-arrow{
-  color:var(--text3);font-size:1rem;
-  opacity:0.4;transition:all 0.2s;
-  flex-shrink:0;margin-top:4px;
-}
-.proj-wip{opacity:0.55;pointer-events:none;}
-.wip-tag{
-  font-family:var(--mono);font-size:10px;font-weight:500;
-  letter-spacing:0.06em;text-transform:uppercase;
-  background:rgba(255,200,60,0.1);border:1px solid rgba(255,200,60,0.3);
-  color:#ffc83d;padding:3px 9px;border-radius:2px;
-  flex-shrink:0;
-}
-.proj-flagship{
-  position:absolute;top:0;left:0;
-  width:3px;height:100%;background:var(--gold);
-  border-radius:0;
+  font-size:1.1rem;color:var(--text3);
+  opacity:0.5;transition:all 0.2s;
+  flex-shrink:0;margin-top:6px;
 }
 
 /* ── SKILLS ── */
 .skills-grid{
   display:grid;grid-template-columns:repeat(3,1fr);
   gap:1px;
-  border:1px solid var(--border);border-radius:6px;overflow:hidden;
+  background:var(--border2);
+  border:1px solid var(--border2);
+  border-radius:18px;
+  overflow:hidden;
 }
-.skill-block{background:var(--bg2);padding:1.25rem 1.25rem 1.5rem;}
+.skill-block{
+  background:var(--white);
+  padding:1.75rem 2rem;
+}
 .skill-cat{
-  font-family:var(--mono);font-size:10px;font-weight:500;
-  letter-spacing:0.1em;text-transform:uppercase;
-  color:var(--gold);margin-bottom:0.75rem;
+  font-size:13px;font-weight:500;
+  letter-spacing:0.01em;
+  color:var(--text);
+  margin-bottom:1rem;
 }
 .skill-block ul{list-style:none;}
 .skill-block li{
-  font-size:0.85rem;font-weight:300;
-  color:var(--text2);padding:0.2rem 0;
-  display:flex;align-items:center;gap:0.5rem;
+  font-size:14px;font-weight:300;
+  color:var(--text2);
+  padding:0.25rem 0;
+  border-bottom:1px solid var(--border2);
 }
-.skill-block li::before{
-  content:'';width:3px;height:3px;
-  border-radius:50%;background:var(--border2);
-  flex-shrink:0;
-}
+.skill-block li:last-child{border-bottom:none;}
 
 /* ── EXPERIENCE ── */
 .exp-list{
-  display:flex;flex-direction:column;gap:1px;
-  border:1px solid var(--border);border-radius:6px;overflow:hidden;
+  display:flex;flex-direction:column;
+  gap:1px;
+  background:var(--border2);
+  border:1px solid var(--border2);
+  border-radius:18px;
+  overflow:hidden;
 }
 .exp{
-  background:var(--bg2);padding:1.25rem 1.5rem;
-  border-bottom:1px solid var(--border);
-  display:grid;grid-template-columns:1fr auto;gap:1rem;
+  background:var(--white);
+  padding:1.75rem 2.5rem;
+  display:grid;grid-template-columns:1fr auto;
+  gap:2rem;align-items:start;
 }
-.exp:last-child{border-bottom:none;}
 .exp-role{
-  font-family:var(--sans);font-size:0.92rem;font-weight:500;
+  font-size:17px;font-weight:500;
   color:var(--text);margin-bottom:0.2rem;
 }
 .exp-org{
-  font-family:var(--mono);font-size:11px;
-  color:var(--text2);margin-bottom:0.5rem;
+  font-size:14px;font-weight:400;
+  color:var(--text2);margin-bottom:0.6rem;
 }
 .exp-desc{
-  font-size:0.85rem;font-weight:300;
-  color:var(--text2);line-height:1.65;
+  font-size:14px;font-weight:300;
+  color:var(--text2);line-height:1.6;
 }
 .exp-date{
-  font-family:var(--mono);font-size:11px;
+  font-size:13px;font-weight:300;
   color:var(--text3);white-space:nowrap;
-  margin-top:2px;
-}
-
-/* ── COURSEWORK ── */
-.course-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:1px;
-  border:1px solid var(--border);border-radius:6px;overflow:hidden;
-}
-.course-block{background:var(--bg2);padding:1.25rem;}
-.course-cat{
-  font-family:var(--mono);font-size:10px;font-weight:500;
-  letter-spacing:0.1em;text-transform:uppercase;
-  color:var(--text3);margin-bottom:0.75rem;
-}
-.course-block ul{list-style:none;}
-.course-block li{
-  font-size:0.83rem;font-weight:300;
-  color:var(--text2);padding:0.18rem 0;
 }
 
 /* ── CERTIFICATIONS ── */
-.cert-row{
-  display:flex;flex-wrap:wrap;gap:0.5rem;
-  margin-top:0;
-}
+.cert-row{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.5rem;}
 .cert{
-  font-family:var(--mono);font-size:11px;font-weight:400;
-  border:1px solid var(--border2);border-radius:3px;
-  padding:5px 12px;color:var(--text2);
-  background:var(--bg2);
+  font-size:13px;font-weight:400;
+  color:var(--text2);
+  background:var(--bg);
+  border:1px solid var(--border2);
+  border-radius:980px;
+  padding:6px 16px;
   display:flex;align-items:center;gap:6px;
 }
-.cert::before{
-  content:'✓';font-size:10px;color:var(--green);
+.cert-check{
+  width:14px;height:14px;border-radius:50%;
+  background:#34c759;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.cert-check::after{
+  content:'✓';font-size:9px;color:#fff;font-weight:700;
 }
 
 /* ── CONTACT ── */
-.contact-block{
-  background:var(--bg2);
-  border:1px solid var(--border);
-  border-radius:6px;
-  padding:2rem;
-  display:flex;justify-content:space-between;
-  align-items:center;
-  gap:2rem;
-  flex-wrap:wrap;
+.contact-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;
+  background:var(--border2);
+  border:1px solid var(--border2);
+  border-radius:18px;
+  overflow:hidden;
 }
-.contact-left h3{
-  font-family:var(--serif);font-size:1.4rem;font-weight:400;
-  color:var(--text);margin-bottom:0.4rem;
+.contact-cell{
+  background:var(--white);
+  padding:2.5rem;
 }
-.contact-left p{
-  font-size:0.87rem;font-weight:300;
-  color:var(--text2);max-width:340px;
+.contact-cell h3{
+  font-family:var(--serif);
+  font-size:1.5rem;font-weight:400;
+  letter-spacing:-0.01em;
+  color:var(--text);margin-bottom:0.75rem;
 }
-.contact-links{display:flex;flex-direction:column;gap:0.5rem;}
+.contact-cell p{
+  font-size:15px;font-weight:300;
+  color:var(--text2);line-height:1.65;
+  max-width:320px;
+}
+.contact-links{
+  background:var(--white);
+  padding:2.5rem;
+  display:flex;flex-direction:column;
+  gap:0.5rem;
+  justify-content:center;
+}
 .contact-link{
-  font-family:var(--mono);font-size:11px;font-weight:400;
-  letter-spacing:0.05em;
-  color:var(--text2);text-decoration:none;
-  border:1px solid var(--border2);border-radius:3px;
-  padding:7px 16px;
-  transition:all 0.2s;
-  display:flex;align-items:center;gap:8px;min-width:200px;
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:15px;font-weight:400;
+  color:var(--text);text-decoration:none;
+  padding:0.9rem 1.25rem;
+  border:1px solid var(--border2);
+  border-radius:12px;
+  transition:all 0.15s;
 }
 .contact-link:hover{
-  border-color:var(--gold);color:var(--gold);
-  background:rgba(201,169,110,0.06);
+  background:var(--bg);
+  border-color:var(--border);
 }
+.contact-link span{font-size:13px;color:var(--text3);}
 
 /* ── FOOTER ── */
 footer{
-  max-width:800px;margin:0 auto;
-  padding:1.5rem;
-  border-top:1px solid var(--border);
+  max-width:980px;margin:0 auto;
+  padding:2rem;
+  border-top:1px solid var(--border2);
   display:flex;justify-content:space-between;align-items:center;
-  font-family:var(--mono);font-size:10px;
+  font-size:12px;font-weight:300;
   color:var(--text3);
   flex-wrap:wrap;gap:0.5rem;
-  position:relative;z-index:1;
 }
 
-/* ── SCROLL ANIMATIONS ── */
-.fade-in{
-  opacity:0;transform:translateY(18px);
-  transition:opacity 0.6s cubic-bezier(0.22,1,0.36,1),
-             transform 0.6s cubic-bezier(0.22,1,0.36,1);
+/* ── FADE IN ── */
+.fade-up{
+  opacity:0;transform:translateY(20px);
+  transition:opacity 0.65s cubic-bezier(0.22,1,0.36,1),
+             transform 0.65s cubic-bezier(0.22,1,0.36,1);
 }
-.fade-in.visible{opacity:1;transform:translateY(0);}
+.fade-up.visible{opacity:1;transform:translateY(0);}
 
 /* ── RESPONSIVE ── */
-@media(max-width:600px){
-  .hero-layout{grid-template-columns:1fr;}
-  .headshot-wrap{display:none;}
-  .stats-bar{grid-template-columns:repeat(2,1fr);}
-  .skills-grid,.course-grid{grid-template-columns:1fr 1fr;}
-  .contact-block{flex-direction:column;}
-  .contact-links{width:100%;}
-  .contact-link{min-width:unset;width:100%;}
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr;padding:60px 1.5rem 60px;}
+  .headshot-col{display:none;}
+  .stats-inner{grid-template-columns:repeat(2,1fr);}
+  .skills-grid{grid-template-columns:1fr 1fr;}
+  .contact-grid{grid-template-columns:1fr;}
   .exp{grid-template-columns:1fr;}
   .exp-date{display:none;}
+  .section{padding:60px 1.5rem;}
+  .proj-inner{grid-template-columns:1fr;}
+  .proj-arrow{display:none;}
 }
 </style>
 </head>
@@ -466,50 +437,43 @@ footer{
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a href="#" class="nav-logo">OO_</a>
+    <a href="#" class="nav-logo">Omar Oudrari</a>
     <div class="nav-links">
-      <span class="nav-dot">Open to internships</span>
       <a href="#projects">Projects</a>
       <a href="#skills">Skills</a>
-      <a href="#contact">Contact</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact" class="nav-cta">Contact</a>
     </div>
   </div>
 </nav>
 
 <!-- HERO -->
-<div class="wrap">
-  <div class="hero">
-    <p class="hero-eyebrow">Portfolio · 2026</p>
-    <div class="hero-layout">
-      <div>
-        <h1>Omar<br><em>Oudrari</em></h1>
-        <p class="hero-sub">
-          CIS + Marketing double major at James Madison University.
-          Building at the intersection of data analytics and business strategy
-          in the DC/NoVA market.
-        </p>
-        <div class="hero-pills">
-          <span class="pill active">Data Analytics</span>
-          <span class="pill active">Business Intelligence</span>
-          <span class="pill">Python</span>
-          <span class="pill">SQL</span>
-          <span class="pill">Power BI</span>
-          <span class="pill">Falls Church, VA</span>
-        </div>
-        <div class="hero-links">
-          <a href="mailto:omar.oudrari@gmail.com" class="hero-link primary">✉ Get in touch</a>
-          <a href="https://www.linkedin.com/in/omaroudrari/" target="_blank" class="hero-link">LinkedIn ↗</a>
-          <a href="https://github.com/yrgomar" target="_blank" class="hero-link">GitHub ↗</a>
-        </div>
-      </div>
-      <div class="headshot-wrap">
-        <img src="headshot.jpg" alt="Omar Oudrari" class="headshot"/>
-      </div>
+<div class="hero">
+  <div class="hero-text">
+    <p class="hero-eyebrow">
+      <span class="status-dot"></span>
+      Open to Summer 2026 internships · DC / NoVA
+    </p>
+    <h1>Data analytics<br><span>meets business</span><br>strategy.</h1>
+    <p class="hero-sub">
+      CIS + Marketing double major at James Madison University,
+      concentrating in Business Analytics. Building at the
+      intersection of data and decisions.
+    </p>
+    <div class="hero-actions">
+      <a href="mailto:Omar.Oudrari@gmail.com" class="btn btn-primary">Get in touch</a>
+      <a href="https://www.linkedin.com/in/omaroudrari/" target="_blank" class="btn btn-secondary">LinkedIn ↗</a>
+      <a href="https://github.com/yrgomar" target="_blank" class="btn btn-secondary">GitHub ↗</a>
     </div>
   </div>
+  <div class="headshot-col">
+    <img src="headshot.jpg" alt="Omar Oudrari" class="headshot"/>
+  </div>
+</div>
 
-  <!-- STATS BAR -->
-  <div class="stats-bar">
+<!-- STATS -->
+<div class="stats-section fade-up">
+  <div class="stats-inner">
     <div class="stat">
       <span class="stat-val">12</span>
       <span class="stat-label">Brands analyzed</span>
@@ -527,130 +491,121 @@ footer{
       <span class="stat-label">Majors</span>
     </div>
   </div>
+</div>
 
-  <!-- PROJECTS -->
-  <div id="projects" class="sec-head fade-in">
-    <span class="sec-label">Projects</span>
-    <span class="sec-line"></span>
-    <span class="sec-num">04</span>
-  </div>
+<!-- PROJECTS -->
+<div id="projects" class="section">
+  <p class="section-label">Projects</p>
+  <h2>Selected work.</h2>
+  <p class="section-intro">Independent analytics and development projects built outside the classroom.</p>
 
-  <div class="project-grid fade-in">
+  <div class="project-list fade-up">
 
-    <!-- Flagship: Durability Paradox -->
-<a class="project" href="https://yrgomar.github.io/internship-tracker.html" target="_blank">      <div class="proj-flagship"></div>
-      <div class="proj-top">
+    <a class="project" href="https://github.com/yrgomar/durability-paradox" target="_blank">
+      <div class="proj-inner">
         <div>
-          <p class="proj-meta">BUSINESS ANALYSIS · PYTHON · POWER BI · 2025–2026</p>
+          <span class="proj-badge featured">Featured</span>
           <p class="proj-title">The Durability Paradox</p>
+          <p class="proj-desc">
+            Multi-deliverable analysis of 12 fashion brands across 18 variables examining
+            why avant-garde brands (Rick Owens, Maison Margiela, Comme des Garçons) outlast
+            the brands that outspend them. Includes Python pipeline, Power BI dashboard,
+            15-slide deck, and written report. Data sourced from OTB Group, LVMH, Kering,
+            and Vestiaire Collective annual filings.
+          </p>
+          <p class="proj-finding">
+            Maison Margiela +23% revenue in 2023 while Balenciaga contracted −15%.
+            Avant-garde brands retain 60–82% of retail value on resale markets. Fast fashion retains 0–5%.
+          </p>
+          <div class="proj-tags">
+            <span class="proj-tag">Python</span>
+            <span class="proj-tag">Pandas</span>
+            <span class="proj-tag">Matplotlib</span>
+            <span class="proj-tag">Seaborn</span>
+            <span class="proj-tag">Power BI</span>
+            <span class="proj-tag">Excel</span>
+            <span class="proj-tag">Business Analysis</span>
+          </div>
         </div>
         <span class="proj-arrow">↗</span>
       </div>
-      <p class="proj-desc">
-        Multi-deliverable analysis of 12 fashion brands across 18 variables examining why
-        avant-garde brands (Rick Owens, Maison Margiela, Comme des Garçons) outlast the
-        brands that outspend them. Includes Python pipeline, Power BI dashboard, 15-slide
-        deck, and written report.
-      </p>
-      <p class="proj-finding">
-        Maison Margiela +23% revenue growth in 2023 while Balenciaga contracted -15%.
-        Avant-garde brands retain 60–82% of retail value on secondary markets.
-        Fast fashion retains 0–5%. Scarcity is the product, not a constraint.
-      </p>
-      <div class="proj-tags">
-        <span class="proj-tag">Python</span>
-        <span class="proj-tag">Pandas</span>
-        <span class="proj-tag">Matplotlib</span>
-        <span class="proj-tag">Seaborn</span>
-        <span class="proj-tag">Power BI</span>
-        <span class="proj-tag">Excel</span>
-        <span class="proj-tag">PowerPoint</span>
-        <span class="proj-tag">12 brands</span>
-        <span class="proj-tag">18 variables</span>
-      </div>
     </a>
 
-    <!-- Fast Fashion -->
     <a class="project" href="https://github.com/yrgomar/fast-fashion-brand-analysis" target="_blank">
-      <div class="proj-top">
+      <div class="proj-inner">
         <div>
-          <p class="proj-meta">DATA ANALYSIS · PYTHON · 2025</p>
+          <span class="proj-badge">Data Analysis</span>
           <p class="proj-title">The True Cost of Fast Fashion</p>
+          <p class="proj-desc">
+            Analyzed 3,000+ records across Shein, Zara, H&M, Forever 21, and Uniqlo
+            to explore relationships between sustainability scores, worker wages,
+            carbon emissions, and social media reach.
+          </p>
+          <p class="proj-finding">
+            High social media popularity shows little correlation with ethical practices — viral brands are not necessarily responsible ones.
+          </p>
+          <div class="proj-tags">
+            <span class="proj-tag">Python</span>
+            <span class="proj-tag">Pandas</span>
+            <span class="proj-tag">EDA</span>
+            <span class="proj-tag">Seaborn</span>
+            <span class="proj-tag">3,000+ records</span>
+          </div>
         </div>
         <span class="proj-arrow">↗</span>
       </div>
-      <p class="proj-desc">
-        Analyzed 3,000+ records across Shein, Zara, H&M, Forever 21, and Uniqlo
-        to explore the relationship between sustainability scores, worker wages,
-        carbon emissions, and social media reach.
-      </p>
-      <p class="proj-finding">
-        High social media popularity shows little correlation with ethical practices —
-        viral brands are not necessarily responsible ones.
-      </p>
-      <div class="proj-tags">
-        <span class="proj-tag">Python</span>
-        <span class="proj-tag">Pandas</span>
-        <span class="proj-tag">Matplotlib</span>
-        <span class="proj-tag">Seaborn</span>
-        <span class="proj-tag">EDA</span>
-        <span class="proj-tag">3,000+ records</span>
-      </div>
     </a>
 
-    <!-- Internship Tracker -->
     <a class="project" href="https://yrgomar.github.io/Internship-Tracker/" target="_blank">
-      <div class="proj-top">
+      <div class="proj-inner">
         <div>
-          <p class="proj-meta">WEB APP · VANILLA JS · 2026</p>
+          <span class="proj-badge">Web App</span>
           <p class="proj-title">Internship Tracker</p>
+          <p class="proj-desc">
+            Browser-based app for tracking internship applications across 7 pipeline stages.
+            Zero dependencies, works offline. Built to solve my own recruiting problem.
+          </p>
+          <div class="proj-tags">
+            <span class="proj-tag">HTML</span>
+            <span class="proj-tag">CSS</span>
+            <span class="proj-tag">Vanilla JS</span>
+            <span class="proj-tag">Live ↗</span>
+          </div>
         </div>
         <span class="proj-arrow">↗</span>
       </div>
-      <p class="proj-desc">
-        Lightweight browser-based app for tracking internship applications across
-        7 pipeline stages — from wishlist to offer. Zero dependencies, works offline.
-        Built to solve my own recruiting problem during junior-year recruiting.
-      </p>
-      <div class="proj-tags">
-        <span class="proj-tag">HTML</span>
-        <span class="proj-tag">CSS</span>
-        <span class="proj-tag">Vanilla JS</span>
-        <span class="proj-tag">localStorage API</span>
-        <span class="proj-tag">Live →</span>
-      </div>
     </a>
 
-    <!-- AI Club -->
     <a class="project" href="https://madisonaiclub.com" target="_blank">
-      <div class="proj-top">
+      <div class="proj-inner">
         <div>
-          <p class="proj-meta">WEB DEVELOPMENT · TEAM PROJECT · 2026</p>
+          <span class="proj-badge">Web Development</span>
           <p class="proj-title">Madison AI Club — Member Portal</p>
+          <p class="proj-desc">
+            Contributing to a members-only web portal for JMU's AI Club with secure
+            authentication and shared internal calendar. Part of the Web Development Committee.
+          </p>
+          <div class="proj-tags">
+            <span class="proj-tag">JavaScript</span>
+            <span class="proj-tag">Authentication</span>
+            <span class="proj-tag">Team project</span>
+          </div>
         </div>
         <span class="proj-arrow">↗</span>
-      </div>
-      <p class="proj-desc">
-        Contributing to a members-only web portal for JMU's AI Club with secure
-        authentication and shared calendar. Part of the Web Development Committee.
-      </p>
-      <div class="proj-tags">
-        <span class="proj-tag">JavaScript</span>
-        <span class="proj-tag">Authentication</span>
-        <span class="proj-tag">Web Development</span>
       </div>
     </a>
 
   </div>
+</div>
 
-  <!-- SKILLS -->
-  <div id="skills" class="sec-head fade-in">
-    <span class="sec-label">Skills</span>
-    <span class="sec-line"></span>
-    <span class="sec-num">02</span>
-  </div>
+<hr class="section-divider"/>
 
-  <div class="skills-grid fade-in">
+<!-- SKILLS -->
+<div id="skills" class="section">
+  <p class="section-label">Skills</p>
+  <h2>Tools and technologies.</h2>
+
+  <div class="skills-grid fade-up">
     <div class="skill-block">
       <p class="skill-cat">Languages</p>
       <ul>
@@ -673,9 +628,9 @@ footer{
       <p class="skill-cat">BI &amp; Reporting</p>
       <ul>
         <li>Power BI</li>
-        <li>Tableau (learning)</li>
+        <li>DAX</li>
         <li>Dashboard design</li>
-        <li>DAX basics</li>
+        <li>Data visualization</li>
       </ul>
     </div>
     <div class="skill-block">
@@ -693,7 +648,7 @@ footer{
         <li>Git / GitHub</li>
         <li>VS Code</li>
         <li>Google Colab</li>
-        <li>Microsoft Office Suite</li>
+        <li>Microsoft Office</li>
       </ul>
     </div>
     <div class="skill-block">
@@ -705,15 +660,16 @@ footer{
       </ul>
     </div>
   </div>
+</div>
 
-  <!-- EXPERIENCE -->
-  <div class="sec-head fade-in">
-    <span class="sec-label">Experience</span>
-    <span class="sec-line"></span>
-    <span class="sec-num">03</span>
-  </div>
+<hr class="section-divider"/>
 
-  <div class="exp-list fade-in">
+<!-- EXPERIENCE -->
+<div id="experience" class="section">
+  <p class="section-label">Experience</p>
+  <h2>Where I've worked.</h2>
+
+  <div class="exp-list fade-up">
     <div class="exp">
       <div>
         <p class="exp-role">Human Data Specialist</p>
@@ -724,70 +680,61 @@ footer{
     </div>
     <div class="exp">
       <div>
+        <p class="exp-role">Social Chair &amp; Brand Partnerships</p>
+        <p class="exp-org">Kappa Delta Rho, JMU</p>
+        <p class="exp-desc">Managing $30K+ event budgets end-to-end. Coordinating with Fortune 500 partners (Red Bull) and a 7x platinum recording artist collaboration generating $50K+ in ticket sales.</p>
+      </div>
+      <span class="exp-date">Dec 2025 — Present</span>
+    </div>
+    <div class="exp">
+      <div>
         <p class="exp-role">Web Development Committee</p>
-        <p class="exp-org">Madison AI Club — JMU</p>
-        <p class="exp-desc">Building a member-facing portal with secure login and internal calendar. Implementing authentication flow and front-end components.</p>
+        <p class="exp-org">Madison AI Club, JMU</p>
+        <p class="exp-desc">Building a member-facing portal with secure authentication and internal calendar. Implementing front-end components in JavaScript.</p>
       </div>
       <span class="exp-date">Jan 2026 — Present</span>
     </div>
     <div class="exp">
       <div>
-        <p class="exp-role">Social Chair</p>
-        <p class="exp-org">Kappa Delta Rho — JMU</p>
-        <p class="exp-desc">Managing $30K+ event budgets with end-to-end logistics, cross-org partnerships, and Fortune 500 brand relationships (e.g. Red Bull).</p>
+        <p class="exp-role">Host</p>
+        <p class="exp-org">Kyuramen, Falls Church VA</p>
+        <p class="exp-desc">Managed guest flow for Falls Church's #3-rated restaurant during its grand opening, personally tracking 2+ hour waits without a formal system.</p>
       </div>
-      <span class="exp-date">Dec 2025 — Present</span>
+      <span class="exp-date">Oct 2023 — Mar 2024</span>
     </div>
   </div>
+</div>
 
-  <!-- COURSEWORK -->
-  <div class="sec-head fade-in">
-    <span class="sec-label">Coursework</span>
-    <span class="sec-line"></span>
-  </div>
+<hr class="section-divider"/>
 
-  <div class="course-grid fade-in">
-    <div class="course-block">
-      <p class="course-cat">Analytics</p>
-      <ul>
-        <li>Business Analytics II</li>
-        <li>Elementary Statistics</li>
-        <li>Introductory Calculus</li>
-      </ul>
-    </div>
-    <div class="course-block">
-      <p class="course-cat">Information Systems</p>
-      <ul>
-        <li>Principles of Programming</li>
-        <li>Computer Information Systems</li>
-        <li>Enterprise Architecture (upcoming)</li>
-      </ul>
-    </div>
-    <div class="course-block">
-      <p class="course-cat">Business</p>
-      <ul>
-        <li>Financial Accounting</li>
-        <li>Managerial Accounting</li>
-        <li>Macro &amp; Microeconomics</li>
-      </ul>
-    </div>
-  </div>
+<!-- CONTACT -->
+<div id="contact" class="section">
+  <p class="section-label">Contact</p>
+  <h2>Let's talk.</h2>
 
-  <!-- CONTACT -->
-  <div id="contact" class="sec-head fade-in">
-    <span class="sec-label">Contact</span>
-    <span class="sec-line"></span>
-  </div>
-
-  <div class="contact-block fade-in">
-    <div class="contact-left">
-      <h3>Let's work together.</h3>
-      <p>Open to Summer 2026 data analytics, business analyst, and tech internships in the DC/NoVA area. Always up to collaborate on analytics projects.</p>
+  <div class="contact-grid fade-up">
+    <div class="contact-cell">
+      <h3>Open to internships.</h3>
+      <p>Looking for Summer 2026 data analytics, business analyst, and tech internships in the DC/NoVA area. Always up to collaborate on analytics projects.</p>
+      <div class="cert-row" style="margin-top:1.5rem;">
+        <span class="cert"><span class="cert-check"></span>Bloomberg Finance Fundamentals</span>
+        <span class="cert"><span class="cert-check"></span>Bloomberg Market Concepts</span>
+        <span class="cert"><span class="cert-check"></span>Power BI</span>
+      </div>
     </div>
     <div class="contact-links">
-      <a class="contact-link" href="mailto:omar.oudrari@gmail.com">✉ omar.oudrari@gmail.com</a>
-      <a class="contact-link" href="https://www.linkedin.com/in/omaroudrari/" target="_blank">↗ LinkedIn</a>
-      <a class="contact-link" href="https://github.com/yrgomar" target="_blank">⌥ GitHub</a>
+      <a class="contact-link" href="mailto:Omar.Oudrari@gmail.com">
+        Omar.Oudrari@gmail.com
+        <span>Email ↗</span>
+      </a>
+      <a class="contact-link" href="https://www.linkedin.com/in/omaroudrari/" target="_blank">
+        linkedin.com/in/omaroudrari
+        <span>LinkedIn ↗</span>
+      </a>
+      <a class="contact-link" href="https://github.com/yrgomar" target="_blank">
+        github.com/yrgomar
+        <span>GitHub ↗</span>
+      </a>
     </div>
   </div>
 
@@ -797,11 +744,10 @@ footer{
 <!-- FOOTER -->
 <footer>
   <span>Omar Oudrari · JMU · CIS + Marketing · 2026</span>
-  <span>Falls Church, VA · DC/NoVA Market</span>
+  <span>Falls Church, VA · DC/NoVA</span>
 </footer>
 
 <script>
-// Scroll-triggered fade-in
 const obs = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if(e.isIntersecting){
@@ -809,10 +755,8 @@ const obs = new IntersectionObserver((entries) => {
       obs.unobserve(e.target);
     }
   });
-}, { threshold: 0.08 });
-
-document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+}, {threshold:0.08});
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
 </script>
-
 </body>
 </html>
