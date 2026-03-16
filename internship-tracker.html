@@ -4,743 +4,574 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Internship Tracker</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0a0f;
-    --surface: #111118;
-    --surface2: #1a1a24;
-    --surface3: #22222e;
-    --border: #2a2a38;
-    --border2: #3a3a4e;
-    --text: #e8e8f0;
-    --text2: #9898b0;
-    --text3: #5a5a72;
-    --accent: #6c63ff;
-    --accent2: #8b84ff;
-    --accent-glow: rgba(108,99,255,0.15);
-    --green: #22d3a0;
-    --green-bg: rgba(34,211,160,0.1);
-    --yellow: #f0c040;
-    --yellow-bg: rgba(240,192,64,0.1);
-    --red: #ff6b6b;
-    --red-bg: rgba(255,107,107,0.1);
-    --blue: #60a5fa;
-    --blue-bg: rgba(96,165,250,0.1);
-    --purple: #c084fc;
-    --purple-bg: rgba(192,132,252,0.1);
-    --gray-bg: rgba(152,152,176,0.08);
-    --radius: 10px;
-    --mono: 'Space Mono', monospace;
-    --sans: 'DM Sans', sans-serif;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    min-height: 100vh;
-    font-size: 14px;
-  }
-
-  /* Subtle grid background */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(var(--border) 1px, transparent 1px),
-      linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size: 40px 40px;
-    opacity: 0.25;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .app { position: relative; z-index: 1; }
-
-  /* HEADER */
-  header {
-    border-bottom: 1px solid var(--border);
-    padding: 0 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 60px;
-    background: rgba(10,10,15,0.9);
-    backdrop-filter: blur(12px);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--mono);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    color: var(--text);
-  }
-
-  .logo-icon {
-    width: 28px; height: 28px;
-    background: var(--accent);
-    border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px;
-  }
-
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .btn-add {
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-family: var(--sans);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.2s;
-  }
-
-  .btn-add:hover { background: var(--accent2); transform: translateY(-1px); }
-
-  /* STATS BAR */
-  .stats-bar {
-    padding: 20px 32px;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
-  }
-
-  .stat-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    transition: border-color 0.2s;
-  }
-
-  .stat-card:hover { border-color: var(--border2); }
-
-  .stat-label {
-    font-size: 11px;
-    font-family: var(--mono);
-    letter-spacing: 0.08em;
-    color: var(--text3);
-    text-transform: uppercase;
-  }
-
-  .stat-value {
-    font-size: 28px;
-    font-weight: 600;
-    font-family: var(--mono);
-    line-height: 1;
-  }
-
-  .stat-card.total .stat-value { color: var(--text); }
-  .stat-card.applied .stat-value { color: var(--blue); }
-  .stat-card.interviewing .stat-value { color: var(--yellow); }
-  .stat-card.offered .stat-value { color: var(--green); }
-  .stat-card.rejected .stat-value { color: var(--red); }
-
-  /* MAIN CONTENT */
-  .main {
-    padding: 0 32px 40px;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  /* FILTERS */
-  .filters-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-
-  .search-wrap {
-    position: relative;
-    flex: 1;
-    min-width: 200px;
-  }
-
-  .search-wrap svg {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text3);
-    pointer-events: none;
-  }
-
-  .search-input {
-    width: 100%;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 9px 12px 9px 36px;
-    color: var(--text);
-    font-family: var(--sans);
-    font-size: 13px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .search-input:focus { border-color: var(--accent); }
-  .search-input::placeholder { color: var(--text3); }
-
-  .filter-select {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 9px 12px;
-    color: var(--text);
-    font-family: var(--sans);
-    font-size: 13px;
-    outline: none;
-    cursor: pointer;
-    transition: border-color 0.2s;
-    appearance: none;
-    padding-right: 28px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235a5a72' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-  }
-
-  .filter-select:focus { border-color: var(--accent); }
-
-  /* TABLE */
-  .table-wrap {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-
-  .table-header-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 20px 12px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .table-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text2);
-    font-family: var(--mono);
-    letter-spacing: 0.05em;
-  }
-
-  .count-badge {
-    background: var(--surface3);
-    color: var(--text2);
-    border-radius: 20px;
-    padding: 2px 10px;
-    font-size: 11px;
-    font-family: var(--mono);
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  thead th {
-    text-align: left;
-    padding: 10px 20px;
-    font-size: 11px;
-    font-family: var(--mono);
-    letter-spacing: 0.08em;
-    color: var(--text3);
-    text-transform: uppercase;
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
-    font-weight: 400;
-  }
-
-  thead th.sortable { cursor: pointer; user-select: none; }
-  thead th.sortable:hover { color: var(--text2); }
-
-  tbody tr {
-    border-bottom: 1px solid var(--border);
-    transition: background 0.15s;
-    animation: fadeIn 0.3s ease both;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  tbody tr:last-child { border-bottom: none; }
-  tbody tr:hover { background: var(--surface2); }
-
-  tbody td {
-    padding: 14px 20px;
-    vertical-align: middle;
-  }
-
-  .company-cell { display: flex; align-items: center; gap: 10px; }
-
-  .company-logo {
-    width: 32px; height: 32px;
-    border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px;
-    font-weight: 700;
-    font-family: var(--mono);
-    flex-shrink: 0;
-  }
-
-  .company-name { font-weight: 500; color: var(--text); }
-  .company-location { font-size: 12px; color: var(--text3); margin-top: 1px; }
-
-  .role-text { color: var(--text); font-size: 13px; }
-  .date-text { color: var(--text2); font-family: var(--mono); font-size: 12px; }
-  .deadline-text { font-family: var(--mono); font-size: 12px; }
-  .deadline-soon { color: var(--yellow); }
-  .deadline-past { color: var(--red); }
-  .deadline-ok { color: var(--text2); }
-
-  /* STATUS BADGE */
-  .status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 600;
-    font-family: var(--mono);
-    letter-spacing: 0.04em;
-    white-space: nowrap;
-  }
-
-  .status-dot { width: 5px; height: 5px; border-radius: 50%; }
-
-  .status-wishlist   { background: var(--gray-bg);   color: var(--text2);  } .status-wishlist .status-dot   { background: var(--text3); }
-  .status-applied    { background: var(--blue-bg);   color: var(--blue);   } .status-applied .status-dot    { background: var(--blue);  }
-  .status-phone      { background: var(--purple-bg); color: var(--purple); } .status-phone .status-dot      { background: var(--purple);}
-  .status-interview  { background: var(--yellow-bg); color: var(--yellow); } .status-interview .status-dot  { background: var(--yellow);}
-  .status-offer      { background: var(--green-bg);  color: var(--green);  } .status-offer .status-dot      { background: var(--green); }
-  .status-rejected   { background: var(--red-bg);    color: var(--red);    } .status-rejected .status-dot   { background: var(--red);   }
-  .status-withdrawn  { background: var(--gray-bg);   color: var(--text3);  } .status-withdrawn .status-dot  { background: var(--text3); }
-
-  /* PRIORITY */
-  .priority-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    display: inline-block;
-  }
-
-  .priority-high   { background: var(--red); }
-  .priority-medium { background: var(--yellow); }
-  .priority-low    { background: var(--text3); }
-
-  /* ACTION BUTTONS */
-  .action-btns { display: flex; gap: 6px; }
-
-  .btn-icon {
-    width: 28px; height: 28px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text3);
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s;
-    font-size: 13px;
-  }
-
-  .btn-icon:hover { background: var(--surface3); color: var(--text); border-color: var(--border2); }
-  .btn-icon.edit:hover { color: var(--accent2); border-color: var(--accent); }
-  .btn-icon.delete:hover { color: var(--red); border-color: var(--red); }
-
-  /* EMPTY STATE */
-  .empty-state {
-    padding: 60px 20px;
-    text-align: center;
-    color: var(--text3);
-  }
-
-  .empty-icon { font-size: 36px; margin-bottom: 12px; }
-  .empty-title { font-size: 16px; color: var(--text2); font-weight: 500; margin-bottom: 6px; }
-  .empty-sub { font-size: 13px; }
-
-  /* MODAL */
-  .modal-overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.7);
-    z-index: 200;
-    display: flex; align-items: center; justify-content: center;
-    padding: 20px;
-    backdrop-filter: blur(4px);
-    animation: fadeOverlay 0.2s ease;
-  }
-
-  @keyframes fadeOverlay { from { opacity: 0; } to { opacity: 1; } }
-
-  .modal {
-    background: var(--surface);
-    border: 1px solid var(--border2);
-    border-radius: 14px;
-    width: 100%;
-    max-width: 540px;
-    padding: 28px;
-    animation: slideUp 0.25s ease;
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-
-  @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-  .modal-title {
-    font-family: var(--mono);
-    font-size: 15px;
-    font-weight: 700;
-    margin-bottom: 24px;
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .modal-close {
-    width: 28px; height: 28px;
-    background: var(--surface3);
-    border: none;
-    border-radius: 6px;
-    color: var(--text2);
-    cursor: pointer;
-    font-size: 16px;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s;
-  }
-
-  .modal-close:hover { background: var(--red-bg); color: var(--red); }
-
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .form-group { display: flex; flex-direction: column; gap: 6px; }
-  .form-group.full { grid-column: 1 / -1; }
-
-  label {
-    font-size: 11px;
-    font-family: var(--mono);
-    letter-spacing: 0.08em;
-    color: var(--text3);
-    text-transform: uppercase;
-  }
-
-  .form-input, .form-select, .form-textarea {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 12px;
-    color: var(--text);
-    font-family: var(--sans);
-    font-size: 13px;
-    outline: none;
-    transition: border-color 0.2s;
-    width: 100%;
-  }
-
-  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); }
-  .form-input::placeholder, .form-textarea::placeholder { color: var(--text3); }
-
-  .form-select {
-    cursor: pointer;
-    appearance: none;
-    padding-right: 28px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235a5a72' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    background-color: var(--surface2);
-  }
-
-  .form-select option { background: var(--surface2); }
-
-  .form-textarea { resize: vertical; min-height: 80px; }
-
-  .modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 24px;
-    padding-top: 20px;
-    border-top: 1px solid var(--border);
-  }
-
-  .btn-cancel {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text2);
-    padding: 9px 18px;
-    border-radius: 8px;
-    font-family: var(--sans);
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .btn-cancel:hover { border-color: var(--border2); color: var(--text); }
-
-  .btn-save {
-    background: var(--accent);
-    border: none;
-    color: #fff;
-    padding: 9px 20px;
-    border-radius: 8px;
-    font-family: var(--sans);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .btn-save:hover { background: var(--accent2); }
-
-  /* NOTES TOOLTIP */
-  .notes-cell { max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text3); font-size: 12px; }
-
-  /* TAG */
-  .tag {
-    display: inline-block;
-    background: var(--surface3);
-    border-radius: 4px;
-    padding: 2px 7px;
-    font-size: 11px;
-    font-family: var(--mono);
-    color: var(--text2);
-    margin-right: 4px;
-    margin-bottom: 2px;
-  }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--text3); }
-
-  /* Progress bar inside stat */
-  .stat-bar { height: 3px; background: var(--surface3); border-radius: 2px; margin-top: 8px; overflow: hidden; }
-  .stat-bar-fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; }
-
-  .deadline-col { display: flex; align-items: center; gap: 5px; }
-  .deadline-icon { font-size: 11px; }
-
-  @media (max-width: 900px) {
-    .stats-bar { grid-template-columns: repeat(3, 1fr); }
-    header { padding: 0 16px; }
-    .stats-bar, .main { padding-left: 16px; padding-right: 16px; }
-  }
-
-  @media (max-width: 600px) {
-    .stats-bar { grid-template-columns: 1fr 1fr; }
-    .form-grid { grid-template-columns: 1fr; }
-    thead th:nth-child(n+5) { display: none; }
-    tbody td:nth-child(n+5) { display: none; }
-  }
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --white: #ffffff;
+  --bg: #f5f5f7;
+  --bg2: #fbfbfd;
+  --surface: #ffffff;
+  --text: #1d1d1f;
+  --text2: #6e6e73;
+  --text3: #aeaeb2;
+  --border: #d2d2d7;
+  --border2: #e8e8ed;
+  --blue: #0071e3;
+  --blue-dk: #0064cc;
+  --blue-bg: rgba(0,113,227,0.08);
+  --green: #28c76f;
+  --green-bg: rgba(40,199,111,0.1);
+  --yellow: #f59e0b;
+  --yellow-bg: rgba(245,158,11,0.1);
+  --red: #ff3b30;
+  --red-bg: rgba(255,59,48,0.1);
+  --purple: #af52de;
+  --purple-bg: rgba(175,82,222,0.1);
+  --orange: #ff9500;
+  --orange-bg: rgba(255,149,0,0.1);
+  --gray-bg: rgba(110,110,115,0.1);
+  --sans: 'DM Sans', system-ui, sans-serif;
+  --serif: 'DM Serif Display', Georgia, serif;
+}
+
+html { -webkit-font-smoothing: antialiased; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+.nav-inner {
+  max-width: 1100px; margin: 0 auto; padding: 0 2rem;
+  height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-size: 17px; font-weight: 500;
+  color: var(--text); letter-spacing: -0.01em;
+}
+.btn-add {
+  background: var(--blue); color: #fff;
+  border: none; border-radius: 980px;
+  padding: 8px 18px;
+  font-family: var(--sans); font-size: 13px; font-weight: 500;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 6px;
+  transition: background 0.15s;
+}
+.btn-add:hover { background: var(--blue-dk); }
+
+/* ── STATS ── */
+.stats-section {
+  background: var(--white);
+  border-bottom: 1px solid var(--border2);
+  padding: 0;
+}
+.stats-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  divide-x: 1px solid var(--border2);
+}
+.stat {
+  padding: 1.5rem 2rem;
+  border-right: 1px solid var(--border2);
+  position: relative;
+}
+.stat:last-child { border-right: none; }
+.stat-label {
+  font-size: 12px; font-weight: 400;
+  color: var(--text2); margin-bottom: 0.35rem;
+  display: block;
+}
+.stat-val {
+  font-family: var(--serif);
+  font-size: 2rem; font-weight: 400;
+  line-height: 1; display: block;
+  letter-spacing: -0.02em;
+}
+.stat-bar {
+  height: 2px; background: var(--border2);
+  border-radius: 2px; margin-top: 0.75rem;
+  overflow: hidden;
+}
+.stat-bar-fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; }
+.stat.total .stat-val   { color: var(--text); }
+.stat.applied .stat-val { color: var(--blue); }
+.stat.interviewing .stat-val { color: var(--yellow); }
+.stat.offered .stat-val { color: var(--green); }
+.stat.rejected .stat-val { color: var(--red); }
+
+/* ── MAIN ── */
+.main {
+  max-width: 1100px; margin: 0 auto;
+  padding: 2rem;
+  display: flex; flex-direction: column; gap: 1.25rem;
+}
+
+/* ── FILTERS ── */
+.filters-row {
+  display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+}
+.search-wrap {
+  position: relative; flex: 1; min-width: 200px;
+}
+.search-icon {
+  position: absolute; left: 12px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--text3); pointer-events: none;
+  width: 14px; height: 14px;
+}
+.search-input {
+  width: 100%;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 10px; padding: 9px 12px 9px 36px;
+  color: var(--text); font-family: var(--sans); font-size: 14px;
+  outline: none; transition: border-color 0.15s, box-shadow 0.15s;
+}
+.search-input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(0,113,227,0.12);
+}
+.search-input::placeholder { color: var(--text3); }
+.filter-select {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 10px; padding: 9px 28px 9px 12px;
+  color: var(--text); font-family: var(--sans); font-size: 13px;
+  outline: none; cursor: pointer;
+  transition: border-color 0.15s;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23aeaeb2' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 9px center;
+  background-color: var(--white);
+}
+.filter-select:focus { border-color: var(--blue); }
+
+/* ── TABLE CARD ── */
+.table-card {
+  background: var(--white);
+  border: 1px solid var(--border2);
+  border-radius: 18px;
+  overflow: hidden;
+}
+.table-header-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 1.75rem;
+  border-bottom: 1px solid var(--border2);
+}
+.table-title {
+  font-size: 14px; font-weight: 500; color: var(--text);
+}
+.count-badge {
+  font-size: 12px; font-weight: 400; color: var(--text2);
+  background: var(--bg); border: 1px solid var(--border2);
+  border-radius: 980px; padding: 3px 12px;
+}
+
+table { width: 100%; border-collapse: collapse; }
+
+thead th {
+  text-align: left;
+  padding: 0.65rem 1.25rem;
+  font-size: 11px; font-weight: 500;
+  color: var(--text2);
+  letter-spacing: 0.03em; text-transform: uppercase;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border2);
+  white-space: nowrap;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--border2);
+  transition: background 0.12s;
+  animation: rowIn 0.25s ease both;
+}
+@keyframes rowIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--bg2); }
+
+tbody td { padding: 0.9rem 1.25rem; vertical-align: middle; }
+
+/* ── COMPANY CELL ── */
+.company-cell { display: flex; align-items: center; gap: 10px; }
+.company-logo {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 600;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+.company-name { font-size: 14px; font-weight: 500; color: var(--text); }
+.company-loc  { font-size: 12px; color: var(--text3); margin-top: 1px; }
+
+.role-text  { font-size: 13px; color: var(--text); }
+.date-text  { font-size: 12px; color: var(--text2); white-space: nowrap; }
+
+/* ── STATUS BADGE ── */
+.status-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 980px;
+  font-size: 11px; font-weight: 500;
+  white-space: nowrap; letter-spacing: 0.01em;
+}
+.status-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+
+.s-wishlist   { background: var(--gray-bg);   color: var(--text2); }  .s-wishlist .status-dot   { background: var(--text3); }
+.s-applied    { background: var(--blue-bg);   color: var(--blue); }   .s-applied .status-dot    { background: var(--blue); }
+.s-phone      { background: var(--purple-bg); color: var(--purple); } .s-phone .status-dot      { background: var(--purple); }
+.s-interview  { background: var(--yellow-bg); color: var(--yellow); } .s-interview .status-dot  { background: var(--yellow); }
+.s-offer      { background: var(--green-bg);  color: var(--green); }  .s-offer .status-dot      { background: var(--green); }
+.s-rejected   { background: var(--red-bg);    color: var(--red); }    .s-rejected .status-dot   { background: var(--red); }
+.s-withdrawn  { background: var(--gray-bg);   color: var(--text3); }  .s-withdrawn .status-dot  { background: var(--text3); }
+
+/* ── PRIORITY ── */
+.priority-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  display: inline-block;
+}
+.pri-high   { background: var(--red); }
+.pri-medium { background: var(--yellow); }
+.pri-low    { background: var(--text3); }
+
+/* ── DEADLINE ── */
+.dl-ok   { font-size: 12px; color: var(--text2); }
+.dl-soon { font-size: 12px; color: var(--yellow); font-weight: 500; }
+.dl-past { font-size: 12px; color: var(--red); font-weight: 500; }
+.dl-none { font-size: 12px; color: var(--text3); }
+
+/* ── NOTES ── */
+.notes-cell {
+  max-width: 160px; overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap;
+  font-size: 12px; color: var(--text2);
+}
+
+/* ── ACTION BUTTONS ── */
+.action-btns { display: flex; gap: 5px; }
+.btn-icon {
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  border: 1px solid var(--border2);
+  background: transparent;
+  color: var(--text3);
+  cursor: pointer; font-size: 12px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.12s;
+}
+.btn-icon:hover { background: var(--bg); color: var(--text); border-color: var(--border); }
+.btn-icon.edit:hover  { color: var(--blue); border-color: rgba(0,113,227,0.3); background: var(--blue-bg); }
+.btn-icon.delete:hover { color: var(--red); border-color: rgba(255,59,48,0.3); background: var(--red-bg); }
+
+/* ── EMPTY STATE ── */
+.empty-state {
+  padding: 4rem 2rem; text-align: center;
+}
+.empty-icon  { font-size: 2.5rem; margin-bottom: 1rem; }
+.empty-title { font-size: 17px; font-weight: 500; color: var(--text); margin-bottom: 0.4rem; }
+.empty-sub   { font-size: 14px; color: var(--text2); }
+
+/* ── MODAL ── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  padding: 1.5rem;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: fadeO 0.2s ease;
+}
+@keyframes fadeO { from { opacity: 0; } to { opacity: 1; } }
+
+.modal {
+  background: var(--white);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  width: 100%; max-width: 540px;
+  padding: 2rem;
+  animation: slideUp 0.22s cubic-bezier(0.22,1,0.36,1);
+  max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.modal-title {
+  font-size: 17px; font-weight: 500;
+  color: var(--text); margin-bottom: 1.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.modal-close {
+  width: 28px; height: 28px;
+  background: var(--bg); border: 1px solid var(--border2);
+  border-radius: 7px; color: var(--text2);
+  cursor: pointer; font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.12s;
+}
+.modal-close:hover { background: var(--red-bg); color: var(--red); border-color: rgba(255,59,48,0.3); }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group.full { grid-column: 1 / -1; }
+
+label {
+  font-size: 12px; font-weight: 500;
+  color: var(--text2);
+}
+.form-input, .form-select, .form-textarea {
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: 10px; padding: 9px 12px;
+  color: var(--text); font-family: var(--sans); font-size: 14px;
+  outline: none; transition: border-color 0.15s, box-shadow 0.15s;
+  width: 100%;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(0,113,227,0.12);
+  background: var(--white);
+}
+.form-input::placeholder, .form-textarea::placeholder { color: var(--text3); }
+.form-select {
+  appearance: none; cursor: pointer;
+  padding-right: 28px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23aeaeb2' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 9px center;
+  background-color: var(--bg2);
+}
+.form-textarea { resize: vertical; min-height: 80px; }
+
+.modal-actions {
+  display: flex; justify-content: flex-end; gap: 0.75rem;
+  margin-top: 1.5rem; padding-top: 1.25rem;
+  border-top: 1px solid var(--border2);
+}
+.btn-cancel {
+  background: var(--bg); border: 1px solid var(--border2);
+  color: var(--text2); padding: 9px 20px;
+  border-radius: 980px; font-family: var(--sans);
+  font-size: 14px; cursor: pointer; transition: all 0.12s;
+}
+.btn-cancel:hover { background: var(--border2); color: var(--text); }
+.btn-save {
+  background: var(--blue); border: none; color: #fff;
+  padding: 9px 22px; border-radius: 980px;
+  font-family: var(--sans); font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: background 0.12s;
+}
+.btn-save:hover { background: var(--blue-dk); }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border2); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .stats-inner { grid-template-columns: repeat(3,1fr); }
+  thead th:nth-child(n+6) { display: none; }
+  tbody td:nth-child(n+6) { display: none; }
+}
+@media (max-width: 600px) {
+  .stats-inner { grid-template-columns: 1fr 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .main { padding: 1rem; }
+  .nav-inner { padding: 0 1rem; }
+  thead th:nth-child(n+4) { display: none; }
+  tbody td:nth-child(n+4) { display: none; }
+}
 </style>
 </head>
 <body>
-<div class="app">
 
-  <!-- HEADER -->
-  <header>
-    <div class="logo">
-      <div class="logo-icon">⚡</div>
-      INTERN.TRACK
-    </div>
-    <div class="header-right">
-      <button class="btn-add" onclick="openModal()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-        Add Application
-      </button>
-    </div>
-  </header>
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <span class="nav-logo">Internship Tracker</span>
+    <button class="btn-add" onclick="openModal()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+      Add Application
+    </button>
+  </div>
+</nav>
 
-  <!-- STATS BAR -->
-  <div class="stats-bar">
-    <div class="stat-card total">
+<!-- STATS -->
+<div class="stats-section">
+  <div class="stats-inner">
+    <div class="stat total">
       <span class="stat-label">Total</span>
-      <span class="stat-value" id="stat-total">0</span>
-      <div class="stat-bar"><div class="stat-bar-fill" style="width:100%; background:var(--border2)"></div></div>
+      <span class="stat-val" id="stat-total">0</span>
+      <div class="stat-bar"><div class="stat-bar-fill" style="width:100%;background:var(--border);"></div></div>
     </div>
-    <div class="stat-card applied">
+    <div class="stat applied">
       <span class="stat-label">Applied</span>
-      <span class="stat-value" id="stat-applied">0</span>
-      <div class="stat-bar"><div class="stat-bar-fill" id="bar-applied" style="width:0%; background:var(--blue)"></div></div>
+      <span class="stat-val" id="stat-applied">0</span>
+      <div class="stat-bar"><div class="stat-bar-fill" id="bar-applied" style="width:0%;background:var(--blue);"></div></div>
     </div>
-    <div class="stat-card interviewing">
+    <div class="stat interviewing">
       <span class="stat-label">Interviewing</span>
-      <span class="stat-value" id="stat-interviewing">0</span>
-      <div class="stat-bar"><div class="stat-bar-fill" id="bar-interviewing" style="width:0%; background:var(--yellow)"></div></div>
+      <span class="stat-val" id="stat-interviewing">0</span>
+      <div class="stat-bar"><div class="stat-bar-fill" id="bar-interviewing" style="width:0%;background:var(--yellow);"></div></div>
     </div>
-    <div class="stat-card offered">
+    <div class="stat offered">
       <span class="stat-label">Offers</span>
-      <span class="stat-value" id="stat-offered">0</span>
-      <div class="stat-bar"><div class="stat-bar-fill" id="bar-offered" style="width:0%; background:var(--green)"></div></div>
+      <span class="stat-val" id="stat-offered">0</span>
+      <div class="stat-bar"><div class="stat-bar-fill" id="bar-offered" style="width:0%;background:var(--green);"></div></div>
     </div>
-    <div class="stat-card rejected">
+    <div class="stat rejected">
       <span class="stat-label">Rejected</span>
-      <span class="stat-value" id="stat-rejected">0</span>
-      <div class="stat-bar"><div class="stat-bar-fill" id="bar-rejected" style="width:0%; background:var(--red)"></div></div>
+      <span class="stat-val" id="stat-rejected">0</span>
+      <div class="stat-bar"><div class="stat-bar-fill" id="bar-rejected" style="width:0%;background:var(--red);"></div></div>
     </div>
   </div>
+</div>
 
-  <!-- MAIN -->
-  <div class="main">
-    <!-- Filters -->
-    <div class="filters-row">
-      <div class="search-wrap">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input class="search-input" type="text" id="search" placeholder="Search companies, roles..." oninput="renderTable()">
-      </div>
-      <select class="filter-select" id="filter-status" onchange="renderTable()">
-        <option value="">All Status</option>
-        <option value="wishlist">Wishlist</option>
-        <option value="applied">Applied</option>
-        <option value="phone">Phone Screen</option>
-        <option value="interview">Interview</option>
-        <option value="offer">Offer</option>
-        <option value="rejected">Rejected</option>
-        <option value="withdrawn">Withdrawn</option>
-      </select>
-      <select class="filter-select" id="filter-priority" onchange="renderTable()">
-        <option value="">All Priority</option>
-        <option value="high">High Priority</option>
-        <option value="medium">Medium Priority</option>
-        <option value="low">Low Priority</option>
-      </select>
-      <select class="filter-select" id="sort-by" onchange="renderTable()">
-        <option value="date-desc">Newest First</option>
-        <option value="date-asc">Oldest First</option>
-        <option value="deadline">By Deadline</option>
-        <option value="company">By Company</option>
-        <option value="status">By Status</option>
-      </select>
+<!-- MAIN -->
+<div class="main">
+  <!-- Filters -->
+  <div class="filters-row">
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input class="search-input" type="text" id="search" placeholder="Search companies, roles..." oninput="renderTable()">
     </div>
-
-    <!-- Table -->
-    <div class="table-wrap">
-      <div class="table-header-row">
-        <span class="table-title">APPLICATIONS</span>
-        <span class="count-badge" id="count-badge">0 results</span>
-      </div>
-      <div id="table-container"></div>
-    </div>
+    <select class="filter-select" id="filter-status" onchange="renderTable()">
+      <option value="">All Status</option>
+      <option value="wishlist">Wishlist</option>
+      <option value="applied">Applied</option>
+      <option value="phone">Phone Screen</option>
+      <option value="interview">Interview</option>
+      <option value="offer">Offer</option>
+      <option value="rejected">Rejected</option>
+      <option value="withdrawn">Withdrawn</option>
+    </select>
+    <select class="filter-select" id="filter-priority" onchange="renderTable()">
+      <option value="">All Priority</option>
+      <option value="high">High</option>
+      <option value="medium">Medium</option>
+      <option value="low">Low</option>
+    </select>
+    <select class="filter-select" id="sort-by" onchange="renderTable()">
+      <option value="date-desc">Newest First</option>
+      <option value="date-asc">Oldest First</option>
+      <option value="deadline">By Deadline</option>
+      <option value="company">By Company</option>
+      <option value="status">By Status</option>
+    </select>
   </div>
 
-  <!-- MODAL -->
-  <div class="modal-overlay" id="modal-overlay" style="display:none" onclick="handleOverlayClick(event)">
-    <div class="modal">
-      <div class="modal-title">
-        <span id="modal-title-text">New Application</span>
-        <button class="modal-close" onclick="closeModal()">✕</button>
-      </div>
-      <form id="app-form" onsubmit="saveApplication(event)">
-        <input type="hidden" id="edit-id">
-        <div class="form-grid">
-          <div class="form-group">
-            <label>Company *</label>
-            <input class="form-input" id="f-company" type="text" placeholder="e.g. Capital One" required>
-          </div>
-          <div class="form-group">
-            <label>Role *</label>
-            <input class="form-input" id="f-role" type="text" placeholder="e.g. Data Analyst Intern" required>
-          </div>
-          <div class="form-group">
-            <label>Location</label>
-            <input class="form-input" id="f-location" type="text" placeholder="e.g. McLean, VA">
-          </div>
-          <div class="form-group">
-            <label>Status</label>
-            <select class="form-select" id="f-status">
-              <option value="wishlist">Wishlist</option>
-              <option value="applied" selected>Applied</option>
-              <option value="phone">Phone Screen</option>
-              <option value="interview">Interview</option>
-              <option value="offer">Offer</option>
-              <option value="rejected">Rejected</option>
-              <option value="withdrawn">Withdrawn</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Applied Date</label>
-            <input class="form-input" id="f-date" type="date">
-          </div>
-          <div class="form-group">
-            <label>Deadline</label>
-            <input class="form-input" id="f-deadline" type="date">
-          </div>
-          <div class="form-group">
-            <label>Priority</label>
-            <select class="form-select" id="f-priority">
-              <option value="high">High</option>
-              <option value="medium" selected>Medium</option>
-              <option value="low">Low</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Job Link</label>
-            <input class="form-input" id="f-link" type="url" placeholder="https://...">
-          </div>
-          <div class="form-group full">
-            <label>Notes</label>
-            <textarea class="form-textarea" id="f-notes" placeholder="Recruiter name, contact info, interview notes, referrals..."></textarea>
-          </div>
+  <!-- Table -->
+  <div class="table-card">
+    <div class="table-header-row">
+      <span class="table-title">Applications</span>
+      <span class="count-badge" id="count-badge">0 results</span>
+    </div>
+    <div id="table-container"></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" style="display:none" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <div class="modal-title">
+      <span id="modal-title-text">New Application</span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <form id="app-form" onsubmit="saveApplication(event)">
+      <input type="hidden" id="edit-id">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Company *</label>
+          <input class="form-input" id="f-company" type="text" placeholder="e.g. Capital One" required>
         </div>
-        <div class="modal-actions">
-          <button type="button" class="btn-cancel" onclick="closeModal()">Cancel</button>
-          <button type="submit" class="btn-save">Save Application</button>
+        <div class="form-group">
+          <label>Role *</label>
+          <input class="form-input" id="f-role" type="text" placeholder="e.g. Data Analyst Intern" required>
         </div>
-      </form>
-    </div>
+        <div class="form-group">
+          <label>Location</label>
+          <input class="form-input" id="f-location" type="text" placeholder="e.g. McLean, VA">
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select class="form-select" id="f-status">
+            <option value="wishlist">Wishlist</option>
+            <option value="applied" selected>Applied</option>
+            <option value="phone">Phone Screen</option>
+            <option value="interview">Interview</option>
+            <option value="offer">Offer</option>
+            <option value="rejected">Rejected</option>
+            <option value="withdrawn">Withdrawn</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Applied Date</label>
+          <input class="form-input" id="f-date" type="date">
+        </div>
+        <div class="form-group">
+          <label>Deadline</label>
+          <input class="form-input" id="f-deadline" type="date">
+        </div>
+        <div class="form-group">
+          <label>Priority</label>
+          <select class="form-select" id="f-priority">
+            <option value="high">High</option>
+            <option value="medium" selected>Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Job Link</label>
+          <input class="form-input" id="f-link" type="url" placeholder="https://...">
+        </div>
+        <div class="form-group full">
+          <label>Notes</label>
+          <textarea class="form-textarea" id="f-notes" placeholder="Recruiter name, interview notes, referrals..."></textarea>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="btn-save">Save Application</button>
+      </div>
+    </form>
   </div>
-
 </div>
 
 <script>
-// ─── DATA ───────────────────────────────────────────────────────────────────
-
+// ─── DATA ────────────────────────────────────────────────────────────────────
 let applications = JSON.parse(localStorage.getItem('internship-apps') || '[]');
 
-// Seed with Omar's target companies if empty
 if (applications.length === 0) {
-  const today = new Date();
   const fmt = d => d.toISOString().split('T')[0];
-  const ago = n => { const d = new Date(today); d.setDate(d.getDate()-n); return fmt(d); };
-  const fwd = n => { const d = new Date(today); d.setDate(d.getDate()+n); return fmt(d); };
-
+  const ago = n => { const d = new Date(); d.setDate(d.getDate()-n); return fmt(d); };
+  const fwd = n => { const d = new Date(); d.setDate(d.getDate()+n); return fmt(d); };
   applications = [
-    { id: uid(), company: 'Capital One', role: 'Data Analyst Intern', location: 'McLean, VA', status: 'applied', date: ago(14), deadline: fwd(30), priority: 'high', link: '', notes: 'Applied via Handshake. Strong fit for BSAN background.', color: '#e31837' },
-    { id: uid(), company: 'Booz Allen Hamilton', role: 'Business Analyst Intern', location: 'McLean, VA', status: 'phone', date: ago(21), deadline: fwd(7), priority: 'high', link: '', notes: 'Phone screen scheduled. JMU alum referred me.', color: '#0055a5' },
-    { id: uid(), company: 'Amazon', role: 'Business Intelligence Intern', location: 'Arlington, VA', status: 'applied', date: ago(7), deadline: fwd(45), priority: 'high', link: '', notes: 'Applied through university portal.', color: '#ff9900' },
-    { id: uid(), company: 'Deloitte', role: 'Technology Consulting Intern', location: 'Arlington, VA', status: 'wishlist', date: ago(2), deadline: fwd(60), priority: 'medium', link: '', notes: 'Opens Fall 2026 recruiting cycle. Prep case interviews.', color: '#86bc25' },
-    { id: uid(), company: 'Leidos', role: 'Data Analytics Intern', location: 'Reston, VA', status: 'applied', date: ago(10), deadline: fwd(20), priority: 'medium', link: '', notes: 'Requires US Citizenship. Clearance possible.', color: '#0099d9' },
-    { id: uid(), company: 'MITRE', role: 'Analytics & AI Intern', location: 'McLean, VA', status: 'interview', date: ago(28), deadline: fwd(5), priority: 'high', link: '', notes: 'Technical interview Round 2 scheduled for next week.', color: '#003865' },
-    { id: uid(), company: 'Accenture', role: 'Technology Analyst Intern', location: 'Arlington, VA', status: 'rejected', date: ago(35), deadline: '', priority: 'medium', link: '', notes: 'Rejected after phone screen. Feedback: need more technical depth.', color: '#a100ff' },
+    { id: uid(), company:'Capital One',        role:'Data Analyst Intern',          location:'McLean, VA',    status:'applied',   date:ago(14), deadline:fwd(30), priority:'high',   link:'', notes:'Applied via Handshake. Strong fit for BSAN background.' },
+    { id: uid(), company:'Booz Allen Hamilton', role:'Business Analyst Intern',      location:'McLean, VA',    status:'phone',     date:ago(21), deadline:fwd(7),  priority:'high',   link:'', notes:'Phone screen scheduled. JMU alum referred me.' },
+    { id: uid(), company:'Amazon',              role:'Business Intelligence Intern', location:'Arlington, VA', status:'applied',   date:ago(7),  deadline:fwd(45), priority:'high',   link:'', notes:'Applied through university portal.' },
+    { id: uid(), company:'Deloitte',            role:'Technology Consulting Intern', location:'Arlington, VA', status:'wishlist',  date:ago(2),  deadline:fwd(60), priority:'medium', link:'', notes:'Opens Fall 2026 recruiting cycle. Prep case interviews.' },
+    { id: uid(), company:'Leidos',              role:'Data Analytics Intern',        location:'Reston, VA',    status:'applied',   date:ago(10), deadline:fwd(20), priority:'medium', link:'', notes:'Requires US Citizenship.' },
+    { id: uid(), company:'MITRE',               role:'Analytics & AI Intern',        location:'McLean, VA',    status:'interview', date:ago(28), deadline:fwd(5),  priority:'high',   link:'', notes:'Technical interview Round 2 scheduled.' },
+    { id: uid(), company:'Accenture',           role:'Technology Analyst Intern',    location:'Arlington, VA', status:'rejected',  date:ago(35), deadline:'',      priority:'medium', link:'', notes:'Rejected after phone screen.' },
   ];
   save();
 }
@@ -749,191 +580,165 @@ function uid() { return Date.now().toString(36) + Math.random().toString(36).sli
 function save() { localStorage.setItem('internship-apps', JSON.stringify(applications)); }
 
 // ─── STATUS CONFIG ────────────────────────────────────────────────────────────
-
 const STATUS = {
-  wishlist:  { label: 'Wishlist',      cls: 'status-wishlist'  },
-  applied:   { label: 'Applied',       cls: 'status-applied'   },
-  phone:     { label: 'Phone Screen',  cls: 'status-phone'     },
-  interview: { label: 'Interview',     cls: 'status-interview' },
-  offer:     { label: 'Offer',         cls: 'status-offer'     },
-  rejected:  { label: 'Rejected',      cls: 'status-rejected'  },
-  withdrawn: { label: 'Withdrawn',     cls: 'status-withdrawn' },
+  wishlist:  { label:'Wishlist',     cls:'s-wishlist'  },
+  applied:   { label:'Applied',      cls:'s-applied'   },
+  phone:     { label:'Phone Screen', cls:'s-phone'     },
+  interview: { label:'Interview',    cls:'s-interview' },
+  offer:     { label:'Offer',        cls:'s-offer'     },
+  rejected:  { label:'Rejected',     cls:'s-rejected'  },
+  withdrawn: { label:'Withdrawn',    cls:'s-withdrawn' },
 };
 
-// ─── LOGO COLOR GENERATOR ─────────────────────────────────────────────────────
-
-const LOGO_COLORS = [
-  '#6c63ff','#22d3a0','#f0c040','#ff6b6b','#60a5fa','#c084fc',
-  '#fb923c','#34d399','#f472b6','#38bdf8',
-];
-const colorMap = {};
-function getColor(company, stored) {
-  if (stored) return stored;
-  if (!colorMap[company]) {
-    let hash = 0;
-    for (let c of company) hash = (hash * 31 + c.charCodeAt(0)) & 0xffffffff;
-    colorMap[company] = LOGO_COLORS[Math.abs(hash) % LOGO_COLORS.length];
+// ─── COMPANY COLORS ───────────────────────────────────────────────────────────
+const PALETTE = ['#0071e3','#28c76f','#f59e0b','#ff3b30','#af52de','#ff9500','#34aadc','#ff6b6b'];
+const colorCache = {};
+function logoColor(company) {
+  if (!colorCache[company]) {
+    let h = 0;
+    for (let c of company) h = (h * 31 + c.charCodeAt(0)) & 0xffffffff;
+    colorCache[company] = PALETTE[Math.abs(h) % PALETTE.length];
   }
-  return colorMap[company];
+  return colorCache[company];
 }
 
 // ─── STATS ────────────────────────────────────────────────────────────────────
-
 function updateStats() {
   const total = applications.length;
-  const counts = { applied: 0, interviewing: 0, offered: 0, rejected: 0 };
+  let applied=0, interviewing=0, offered=0, rejected=0;
   for (const a of applications) {
-    if (a.status === 'applied') counts.applied++;
-    else if (a.status === 'phone' || a.status === 'interview') counts.interviewing++;
-    else if (a.status === 'offer') counts.offered++;
-    else if (a.status === 'rejected') counts.rejected++;
+    if (a.status==='applied') applied++;
+    else if (a.status==='phone'||a.status==='interview') interviewing++;
+    else if (a.status==='offer') offered++;
+    else if (a.status==='rejected') rejected++;
   }
   document.getElementById('stat-total').textContent = total;
-  document.getElementById('stat-applied').textContent = counts.applied;
-  document.getElementById('stat-interviewing').textContent = counts.interviewing;
-  document.getElementById('stat-offered').textContent = counts.offered;
-  document.getElementById('stat-rejected').textContent = counts.rejected;
-
+  document.getElementById('stat-applied').textContent = applied;
+  document.getElementById('stat-interviewing').textContent = interviewing;
+  document.getElementById('stat-offered').textContent = offered;
+  document.getElementById('stat-rejected').textContent = rejected;
   const pct = n => total ? Math.round((n/total)*100) : 0;
-  document.getElementById('bar-applied').style.width = pct(counts.applied) + '%';
-  document.getElementById('bar-interviewing').style.width = pct(counts.interviewing) + '%';
-  document.getElementById('bar-offered').style.width = pct(counts.offered) + '%';
-  document.getElementById('bar-rejected').style.width = pct(counts.rejected) + '%';
+  document.getElementById('bar-applied').style.width = pct(applied)+'%';
+  document.getElementById('bar-interviewing').style.width = pct(interviewing)+'%';
+  document.getElementById('bar-offered').style.width = pct(offered)+'%';
+  document.getElementById('bar-rejected').style.width = pct(rejected)+'%';
 }
 
-// ─── TABLE RENDER ─────────────────────────────────────────────────────────────
-
+// ─── TABLE ────────────────────────────────────────────────────────────────────
 function deadlineInfo(dl) {
-  if (!dl) return { text: '—', cls: '' };
+  if (!dl) return { text:'—', cls:'dl-none' };
   const now = new Date(); now.setHours(0,0,0,0);
-  const d = new Date(dl + 'T00:00:00');
-  const diff = Math.round((d - now) / 86400000);
-  if (diff < 0) return { text: `${Math.abs(diff)}d ago`, cls: 'deadline-past' };
-  if (diff === 0) return { text: 'Today!', cls: 'deadline-soon' };
-  if (diff <= 7) return { text: `${diff}d left`, cls: 'deadline-soon' };
-  return { text: d.toLocaleDateString('en-US', {month:'short',day:'numeric'}), cls: 'deadline-ok' };
+  const d = new Date(dl+'T00:00:00');
+  const diff = Math.round((d-now)/86400000);
+  if (diff < 0)  return { text:`${Math.abs(diff)}d ago`, cls:'dl-past' };
+  if (diff === 0) return { text:'Today',           cls:'dl-soon' };
+  if (diff <= 7)  return { text:`${diff}d left`,   cls:'dl-soon' };
+  return { text: d.toLocaleDateString('en-US',{month:'short',day:'numeric'}), cls:'dl-ok' };
 }
 
 function fmtDate(d) {
   if (!d) return '—';
-  return new Date(d + 'T00:00:00').toLocaleDateString('en-US', {month:'short', day:'numeric'});
-}
-
-function renderTable() {
-  const search = document.getElementById('search').value.toLowerCase();
-  const fStatus = document.getElementById('filter-status').value;
-  const fPriority = document.getElementById('filter-priority').value;
-  const sortBy = document.getElementById('sort-by').value;
-
-  let apps = applications.filter(a => {
-    if (search && !a.company.toLowerCase().includes(search) && !a.role.toLowerCase().includes(search) && !a.location?.toLowerCase().includes(search)) return false;
-    if (fStatus && a.status !== fStatus) return false;
-    if (fPriority && a.priority !== fPriority) return false;
-    return true;
-  });
-
-  apps.sort((a, b) => {
-    if (sortBy === 'date-desc') return (b.date||'').localeCompare(a.date||'');
-    if (sortBy === 'date-asc')  return (a.date||'').localeCompare(b.date||'');
-    if (sortBy === 'deadline')  return (a.deadline||'9999').localeCompare(b.deadline||'9999');
-    if (sortBy === 'company')   return a.company.localeCompare(b.company);
-    if (sortBy === 'status') {
-      const order = ['offer','interview','phone','applied','wishlist','rejected','withdrawn'];
-      return order.indexOf(a.status) - order.indexOf(b.status);
-    }
-    return 0;
-  });
-
-  document.getElementById('count-badge').textContent = `${apps.length} result${apps.length !== 1 ? 's' : ''}`;
-
-  const container = document.getElementById('table-container');
-
-  if (apps.length === 0) {
-    container.innerHTML = `<div class="empty-state">
-      <div class="empty-icon">📭</div>
-      <div class="empty-title">No applications found</div>
-      <div class="empty-sub">Try adjusting your filters or add a new application</div>
-    </div>`;
-    return;
-  }
-
-  const rows = apps.map((a, i) => {
-    const color = getColor(a.company, a.color);
-    const initials = a.company.split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase();
-    const s = STATUS[a.status] || STATUS.applied;
-    const dl = deadlineInfo(a.deadline);
-    const priorityIcon = { high: 'priority-high', medium: 'priority-medium', low: 'priority-low' }[a.priority] || 'priority-low';
-
-    return `<tr style="animation-delay:${i*0.04}s">
-      <td>
-        <div class="company-cell">
-          <div class="company-logo" style="background:${color}22; color:${color};">${initials}</div>
-          <div>
-            <div class="company-name">${esc(a.company)}</div>
-            <div class="company-location">${esc(a.location||'')}</div>
-          </div>
-        </div>
-      </td>
-      <td><span class="role-text">${esc(a.role)}</span></td>
-      <td><span class="status-badge ${s.cls}"><span class="status-dot"></span>${s.label}</span></td>
-      <td><span class="date-text">${fmtDate(a.date)}</span></td>
-      <td>
-        <div class="deadline-col">
-          <span class="deadline-text ${dl.cls}">${dl.text}</span>
-        </div>
-      </td>
-      <td><span class="priority-dot ${priorityIcon}" title="${a.priority} priority"></span></td>
-      <td><div class="notes-cell" title="${esc(a.notes||'')}">${esc(a.notes||'—')}</div></td>
-      <td>
-        <div class="action-btns">
-          ${a.link ? `<button class="btn-icon" onclick="window.open('${esc(a.link)}','_blank')" title="Open job posting">🔗</button>` : ''}
-          <button class="btn-icon edit" onclick="editApp('${a.id}')" title="Edit">✏️</button>
-          <button class="btn-icon delete" onclick="deleteApp('${a.id}')" title="Delete">🗑</button>
-        </div>
-      </td>
-    </tr>`;
-  }).join('');
-
-  container.innerHTML = `<table>
-    <thead>
-      <tr>
-        <th>Company</th>
-        <th>Role</th>
-        <th>Status</th>
-        <th>Applied</th>
-        <th>Deadline</th>
-        <th>Pri.</th>
-        <th>Notes</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>${rows}</tbody>
-  </table>`;
+  return new Date(d+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'});
 }
 
 function esc(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ─── MODAL ────────────────────────────────────────────────────────────────────
+function renderTable() {
+  const search = document.getElementById('search').value.toLowerCase();
+  const fStatus = document.getElementById('filter-status').value;
+  const fPri = document.getElementById('filter-priority').value;
+  const sortBy = document.getElementById('sort-by').value;
 
+  let apps = applications.filter(a => {
+    if (search && !a.company.toLowerCase().includes(search) && !a.role.toLowerCase().includes(search) && !(a.location||'').toLowerCase().includes(search)) return false;
+    if (fStatus && a.status !== fStatus) return false;
+    if (fPri && a.priority !== fPri) return false;
+    return true;
+  });
+
+  const statusOrder = ['offer','interview','phone','applied','wishlist','rejected','withdrawn'];
+  apps.sort((a,b) => {
+    if (sortBy==='date-desc') return (b.date||'').localeCompare(a.date||'');
+    if (sortBy==='date-asc')  return (a.date||'').localeCompare(b.date||'');
+    if (sortBy==='deadline')  return (a.deadline||'9999').localeCompare(b.deadline||'9999');
+    if (sortBy==='company')   return a.company.localeCompare(b.company);
+    if (sortBy==='status')    return statusOrder.indexOf(a.status)-statusOrder.indexOf(b.status);
+    return 0;
+  });
+
+  document.getElementById('count-badge').textContent = `${apps.length} result${apps.length!==1?'s':''}`;
+  const container = document.getElementById('table-container');
+
+  if (apps.length === 0) {
+    container.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">📋</div>
+      <div class="empty-title">No applications found</div>
+      <div class="empty-sub">Try adjusting your filters or add a new application.</div>
+    </div>`;
+    return;
+  }
+
+  const rows = apps.map((a, i) => {
+    const color = logoColor(a.company);
+    const initials = a.company.split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+    const s = STATUS[a.status] || STATUS.applied;
+    const dl = deadlineInfo(a.deadline);
+    const priCls = {high:'pri-high',medium:'pri-medium',low:'pri-low'}[a.priority]||'pri-low';
+    return `<tr style="animation-delay:${i*0.035}s">
+      <td>
+        <div class="company-cell">
+          <div class="company-logo" style="background:${color}18;color:${color};">${initials}</div>
+          <div>
+            <div class="company-name">${esc(a.company)}</div>
+            <div class="company-loc">${esc(a.location||'')}</div>
+          </div>
+        </div>
+      </td>
+      <td><span class="role-text">${esc(a.role)}</span></td>
+      <td><span class="status-badge ${s.cls}"><span class="status-dot"></span>${s.label}</span></td>
+      <td><span class="date-text">${fmtDate(a.date)}</span></td>
+      <td><span class="${dl.cls}">${dl.text}</span></td>
+      <td><span class="priority-dot ${priCls}" title="${esc(a.priority)} priority"></span></td>
+      <td><div class="notes-cell" title="${esc(a.notes||'')}">${esc(a.notes||'—')}</div></td>
+      <td>
+        <div class="action-btns">
+          ${a.link ? `<button class="btn-icon" onclick="window.open('${esc(a.link)}','_blank')" title="Open posting">↗</button>` : ''}
+          <button class="btn-icon edit"   onclick="editApp('${a.id}')" title="Edit">✏</button>
+          <button class="btn-icon delete" onclick="deleteApp('${a.id}')" title="Delete">✕</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  container.innerHTML = `<table>
+    <thead><tr>
+      <th>Company</th><th>Role</th><th>Status</th>
+      <th>Applied</th><th>Deadline</th><th>Pri.</th>
+      <th>Notes</th><th>Actions</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
 function openModal(id) {
   document.getElementById('modal-overlay').style.display = 'flex';
   document.getElementById('modal-title-text').textContent = id ? 'Edit Application' : 'New Application';
   document.getElementById('edit-id').value = id || '';
-
   if (id) {
     const a = applications.find(x => x.id === id);
     if (!a) return;
     document.getElementById('f-company').value  = a.company;
     document.getElementById('f-role').value     = a.role;
-    document.getElementById('f-location').value = a.location || '';
+    document.getElementById('f-location').value = a.location||'';
     document.getElementById('f-status').value   = a.status;
-    document.getElementById('f-date').value     = a.date || '';
-    document.getElementById('f-deadline').value = a.deadline || '';
-    document.getElementById('f-priority').value = a.priority || 'medium';
-    document.getElementById('f-link').value     = a.link || '';
-    document.getElementById('f-notes').value    = a.notes || '';
+    document.getElementById('f-date').value     = a.date||'';
+    document.getElementById('f-deadline').value = a.deadline||'';
+    document.getElementById('f-priority').value = a.priority||'medium';
+    document.getElementById('f-link').value     = a.link||'';
+    document.getElementById('f-notes').value    = a.notes||'';
   } else {
     document.getElementById('app-form').reset();
     document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
@@ -942,13 +747,8 @@ function openModal(id) {
   }
 }
 
-function closeModal() {
-  document.getElementById('modal-overlay').style.display = 'none';
-}
-
-function handleOverlayClick(e) {
-  if (e.target === document.getElementById('modal-overlay')) closeModal();
-}
+function closeModal() { document.getElementById('modal-overlay').style.display = 'none'; }
+function handleOverlayClick(e) { if (e.target===document.getElementById('modal-overlay')) closeModal(); }
 
 function saveApplication(e) {
   e.preventDefault();
@@ -965,41 +765,26 @@ function saveApplication(e) {
     link:     document.getElementById('f-link').value.trim(),
     notes:    document.getElementById('f-notes').value.trim(),
   };
-
   if (id) {
     const idx = applications.findIndex(x => x.id === id);
     if (idx !== -1) applications[idx] = { ...applications[idx], ...data };
   } else {
     applications.unshift(data);
   }
-
-  save();
-  closeModal();
-  renderTable();
-  updateStats();
+  save(); closeModal(); renderTable(); updateStats();
 }
 
 function editApp(id) { openModal(id); }
-
 function deleteApp(id) {
-  if (!confirm('Delete this application?')) return;
+  if (!confirm('Remove this application?')) return;
   applications = applications.filter(x => x.id !== id);
-  save();
-  renderTable();
-  updateStats();
+  save(); renderTable(); updateStats();
 }
-
-// ─── KEYBOARD SHORTCUT ───────────────────────────────────────────────────────
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeModal();
-  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-    e.preventDefault();
-    document.getElementById('search').focus();
-  }
+  if ((e.metaKey||e.ctrlKey) && e.key==='k') { e.preventDefault(); document.getElementById('search').focus(); }
 });
-
-// ─── INIT ─────────────────────────────────────────────────────────────────────
 
 updateStats();
 renderTable();
