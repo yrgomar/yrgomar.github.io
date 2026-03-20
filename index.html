@@ -454,14 +454,14 @@ footer{
       <span class="status-dot"></span>
       Open to Summer 2026 internships · DC / NoVA
     </p>
-    <h1>Turning data<br><span>into decisions.</span></h1>
+    <h1>Data analytics<br><span>meets business</span><br>strategy.</h1>
     <p class="hero-sub">
       CIS + Marketing double major at James Madison University,
       concentrating in Business Analytics. Building at the
       intersection of data and decisions.
     </p>
     <div class="hero-actions">
-      <a href="/cdn-cgi/l/email-protection#f3bc9e9281ddbc86978192819ab3949e929a9fdd909c9e" class="btn btn-primary">Get in touch</a>
+      <a href="mailto:Omar.Oudrari@gmail.com" class="btn btn-primary">Get in touch</a>
       <a href="https://www.linkedin.com/in/omaroudrari/" target="_blank" class="btn btn-secondary">LinkedIn ↗</a>
       <a href="https://github.com/yrgomar" target="_blank" class="btn btn-secondary">GitHub ↗</a>
     </div>
@@ -475,20 +475,20 @@ footer{
 <div class="stats-section fade-up">
   <div class="stats-inner">
     <div class="stat">
-      <span class="stat-val">2</span>
-      <span class="stat-label">Majors</span>
+      <span class="stat-val">$635K</span>
+      <span class="stat-label">Projected revenue lift (MMM)</span>
     </div>
     <div class="stat">
       <span class="stat-val">5</span>
-      <span class="stat-label">Analytics projects shipped</span>
-    </div>
-    <div class="stat">
-      <span class="stat-val">12</span>
-      <span class="stat-label">Brands benchmarked</span>
+      <span class="stat-label">Marketing channels modeled</span>
     </div>
     <div class="stat">
       <span class="stat-val">3k+</span>
-      <span class="stat-label">Records analyzed</span>
+      <span class="stat-label">Records processed</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">2</span>
+      <span class="stat-label">Majors</span>
     </div>
   </div>
 </div>
@@ -753,8 +753,8 @@ footer{
       </div>
     </div>
     <div class="contact-links">
-      <a class="contact-link" href="/cdn-cgi/l/email-protection#93dcfef2e1bddce6f7e1f2e1fad3f4fef2faffbdf0fcfe">
-        <span class="__cf_email__" data-cfemail="115e7c70633f5e64756370637851767c70787d3f727e7c">[email&#160;protected]</span>
+      <a class="contact-link" href="mailto:Omar.Oudrari@gmail.com">
+        Omar.Oudrari@gmail.com
         <span>Email ↗</span>
       </a>
       <a class="contact-link" href="https://www.linkedin.com/in/omaroudrari/" target="_blank">
@@ -777,5 +777,16 @@ footer{
   <span>Falls Church, VA · DC/NoVA</span>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-const obs
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      obs.unobserve(e.target);
+    }
+  });
+}, {threshold:0.08});
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
