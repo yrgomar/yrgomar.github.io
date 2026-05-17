@@ -4,7 +4,7 @@ This repository contains the source code for my personal portfolio website, host
 
 ## About
 
-I’m a Computer Information Systems major with a Business Analytics concentration and a Marketing major at James Madison University. This site highlights my projects in web development, Python, and data analytics.
+I’m a Computer Information Systems major with a Business Analytics concentration and a Finance major at James Madison University. This site highlights my projects in web development, Python, and data analytics.
 
 ## Contents
 
